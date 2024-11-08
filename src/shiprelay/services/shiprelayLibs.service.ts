@@ -24,12 +24,6 @@ export class ShipRelayLibService {
         return response?.access_token || false;
     }
 
-    async productCreationLibService(reqBody: ProductCreationDto): Promise<any> {
-        const token = await this.login();
-
-        return;
-    }
-
     async fetchProductLibService(reqBody: FetchProductDto): Promise<any> {
         const token = await this.login();
 
@@ -50,13 +44,13 @@ export class ShipRelayLibService {
     async fetchProductInfoLibService(productId: string): Promise<any> {
         const token = await this.login();
 
-        const response = await lastValueFrom(
+        return await lastValueFrom(
             this.httpService.get(`${process.env.SHIPRELAY_API_URL}/products/${productId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             }).pipe(
                 map(response => response.data),
                 catchError((error: AxiosError) => {
-                    console.log('error: ', error.response.status);
+                    console.log('error: ', error.response);
                     if (error.response.status == 404)
                         throw new NotFoundException(__('shipRelay.productNotFoundError'))
                     else
@@ -64,7 +58,21 @@ export class ShipRelayLibService {
                 })
             )
         )
+    }
 
-        return response;
+    async productCreationLibService(reqBody: ProductCreationDto): Promise<any> {
+        const token = await this.login();
+
+        return await lastValueFrom(
+            this.httpService.post(`${process.env.SHIPRELAY_API_URL}/products/simple`, reqBody, {
+                headers: { Authorization: `Bearer ${token}` }
+            }).pipe(
+                map(response => response.data),
+                catchError((error: AxiosError) => {
+                    console.log('error: ', error.response.data);
+                    throw new BadRequestException(error.response.data);
+                })
+            )
+        )
     }
 }

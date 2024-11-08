@@ -10,11 +10,11 @@ export class ShipRelayService {
         return await this.shipLibService.fetchProductLibService(reqBody);
     }
 
-    async productCreationService(reqBody: ProductCreationDto): Promise<any> {
-        return await this.shipLibService.productCreationLibService(reqBody);
-    }
-
     async fetchProductInfoService(productId: string): Promise<any> {
         return await this.shipLibService.fetchProductInfoLibService(productId);
+    }
+
+    async productCreationService(reqBody: ProductCreationDto): Promise<any> {
+        return await this.shipLibService.productCreationLibService(reqBody);
     }
 }
