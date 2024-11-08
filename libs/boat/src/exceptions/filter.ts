@@ -42,10 +42,13 @@ export class ExceptionFilter extends BaseExceptionFilter {
     const status = exception.status ? exception.status : 500;
     message = exception.status ? message : 'Internal Server Error';
 
+    const errors = exception?.response?.errors || {};
+
     return response.status(status).json({
       success: false,
       code: status,
       message,
+      errors
     });
   }
 }
