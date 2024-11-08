@@ -1,5 +1,5 @@
 import { HttpService } from "@nestjs/axios";
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { catchError, lastValueFrom, map } from "rxjs";
 import { FetchProductDto, ProductCreationDto } from "../dto";
@@ -17,58 +17,54 @@ export class ShipRelayLibService {
             this.httpService.post(`${process.env.SHIPRELAY_API_URL}/login`, { email, password }).pipe(
                 map(response => response.data),
                 catchError((error: AxiosError) => {
-                    // Log error details for debugging
-                    console.error('Login error:', error.message);
-
-                    // Check for 401 status, which usually indicates wrong credentials
-                    if (error.response?.status === 401) {
-                        throw new Error(__('shipRelay.inValidCredentials'));
-                    }
-
-                    // Throw a generic error for other HTTP errors
-                    throw new Error(__('shipRelay.loginFailed'));
+                    throw new BadRequestException(error);
                 })
             ),
         );
-        console.log('response => ', response);
         return response?.access_token || false;
     }
 
     async productCreationLibService(reqBody: ProductCreationDto): Promise<any> {
         const token = await this.login();
-        if (!token) return new BadRequestException(__('shipRelay.inValidCredentials'));
 
-        console.log('token response => ', token);
         return;
     }
 
     async fetchProductLibService(reqBody: FetchProductDto): Promise<any> {
         const token = await this.login();
-        if (!token) return new BadRequestException(__('shipRelay.inValidCredentials'));
 
         const response = await lastValueFrom(
             this.httpService.get(`${process.env.SHIPRELAY_API_URL}/products?page=${reqBody.page}&per_page=${reqBody.limit}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                headers: { Authorization: `Bearer ${token}` }
             }).pipe(
                 map(response => response.data),
                 catchError((error: AxiosError) => {
-                    // Log error details for debugging
-                    console.error('Login error:', error.message);
-
-                    // Check for 401 status, which usually indicates wrong credentials
-                    if (error.response?.status === 401) {
-                        throw new Error(__('shipRelay.inValidCredentials'));
-                    }
-
-                    // Throw a generic error for other HTTP errors
-                    throw new Error(__('shipRelay.loginFailed'));
+                    throw new BadRequestException(error);
                 })
             )
         )
 
-        console.log('response: ', response);
         return response?.data?.length && { data: response.data, meta: response.meta } || [];
+    }
+
+    async fetchProductInfoLibService(productId: string): Promise<any> {
+        const token = await this.login();
+
+        const response = await lastValueFrom(
+            this.httpService.get(`${process.env.SHIPRELAY_API_URL}/products/${productId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            }).pipe(
+                map(response => response.data),
+                catchError((error: AxiosError) => {
+                    console.log('error: ', error.response.status);
+                    if (error.response.status == 404)
+                        throw new NotFoundException(__('shipRelay.productNotFoundError'))
+                    else
+                        throw new BadRequestException(error);
+                })
+            )
+        )
+
+        return response;
     }
 }

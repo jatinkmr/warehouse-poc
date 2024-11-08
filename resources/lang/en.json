@@ -2,7 +2,6 @@
   "homePageWelcome": "Welcome to warehouse management system!",
   "shipRelay": {
     "welcome": "Welcome to shiprelay route!",
-    "inValidCredentials": "Invalid credentials",
-    "loginFailed": "Unable to loggedIn!"
+    "productNotFoundError": "Product not found!"
   }
 }
