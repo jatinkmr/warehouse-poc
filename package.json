@@ -1,8 +1,8 @@
 {
-  "name": "nestjs-boilerplate",
+  "name": "warehouse_management_system",
   "version": "1.0.0",
-  "description": "A production ready NestJS boilerplate with batteries included. No Kidding!",
-  "author": "Vinayak Sarawagi <vinayaksarawagi25@gmail.com>",
+  "description": "A warehouse management system to handle different warehouse tools!",
+  "author": "Jatin Kumar<jatin.kumar@squareboat.com>",
   "private": false,
   "license": "MIT",
   "keywords": [
@@ -33,6 +33,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/axios": "^3.1.2",
     "@nestjs/common": "^10.1.0",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.1.0",
@@ -41,6 +42,7 @@
     "@squareboat/nest-events": "^0.1.1",
     "@squareboat/nestjs-localization": "^0.0.5",
     "@squareboat/nestjs-objection": "^0.2.4",
+    "axios": "^1.7.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "express-rate-limit": "^6.7.1",

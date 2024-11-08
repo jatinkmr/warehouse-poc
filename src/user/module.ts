@@ -14,4 +14,4 @@ import { GreetUser } from './commands';
     { provide: UserModuleConstants.userRepo, useClass: UserRepository },
   ],
 })
-export class UserModule {}
+export class UserModule { }

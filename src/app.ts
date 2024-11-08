@@ -6,6 +6,8 @@ import { ConsoleModule } from '@squareboat/nest-console';
 import { ObjectionModule } from '@squareboat/nestjs-objection';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LocalizationModule } from '@squareboat/nestjs-localization';
+import { RootController } from './controller';
+import { ShipRelayModule } from './shiprelay/module';
 
 @Module({
   imports: [
@@ -23,8 +25,9 @@ import { LocalizationModule } from '@squareboat/nestjs-localization';
     UserModule,
     EventModule,
     ConsoleModule,
+    ShipRelayModule
   ],
-  controllers: [],
+  controllers: [RootController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

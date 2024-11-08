@@ -15,6 +15,6 @@ import { BaseValidator } from './validator';
     }),
   ],
   providers: [BaseValidator],
-  exports: [],
+  exports: [BaseValidator],
 })
-export class BoatModule {}
+export class BoatModule { }

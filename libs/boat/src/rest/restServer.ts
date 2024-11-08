@@ -28,7 +28,11 @@ export class RestServer {
     app.useGlobalFilters(new ExceptionFilter(httpAdapter));
     options.globalPrefix && app.setGlobalPrefix(options.globalPrefix);
 
+    app.setGlobalPrefix('api');
+
     const config = app.get(ConfigService, { strict: false });
-    await app.listen(options.port || config.get<number>('app.port'));
+
+    let PORT = options.port || config.get<number>('app.port');
+    await app.listen(PORT, () => console.log(`server is listening at ${PORT}! and the url is ${process.env.APP_URL}`));
   }
 }
