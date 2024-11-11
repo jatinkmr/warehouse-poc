@@ -1,5 +1,5 @@
 import { Request, Response, RestController } from "@libs/boat";
-import { Body, Controller, Get, Param, Patch, Post, Req, Res } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Put, Req, Res } from "@nestjs/common";
 import { ShipRelayService } from "../services";
 import { BaseValidator } from "@libs/boat/validator";
 import { FetchProductDto, ProductCreationDto } from "../dto";
@@ -48,6 +48,13 @@ export class ShipRelayController extends RestController {
     @Patch('/product/:productId/restore')
     async productRestoreController(@Req() req: Request, @Res() res: Response, @Param('productId') productId: string): Promise<Response> {
         let response = await this.service.productRestoreService(productId);
+        return res.success(response);
+    }
+
+    @Put('/product/:productId')
+    async productUpdationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ProductCreationDto, @Param('productId') productId: string): Promise<any> {
+        await this.validator.fire(reqBody, ProductCreationDto);
+        let response = await this.service.productUpdationService(productId, reqBody);
         return res.success(response);
     }
 }

@@ -25,4 +25,8 @@ export class ShipRelayService {
     async productRestoreService(productId: string): Promise<any> {
         return await this.shipLibService.productRestoreLibService(productId);
     }
+
+    async productUpdationService(productId: string, reqBody: ProductCreationDto): Promise<any> {
+        return await this.shipLibService.productUpdationLibService(productId, reqBody);
+    }
 }

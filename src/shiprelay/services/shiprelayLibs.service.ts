@@ -157,4 +157,24 @@ export class ShipRelayLibService {
             )
         })
     }
+
+    async productUpdationLibService(productId: string, reqBody: ProductCreationDto): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+
+            return await lastValueFrom(
+                this.httpService.put(`${process.env.SHIPRELAY_API_URL}/products/simple/${productId}`, reqBody, {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('shipRelay.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error.response.data);
+                    })
+                )
+            )
+        })
+    }
 }
