@@ -20,7 +20,12 @@ export class ShipRelayController extends RestController {
     @Get('/product')
     async fetchProductListController(@Req() req: Request, @Res() res: Response): Promise<Response> {
         let reqData = req.all();
-        let reqBody = { limit: +reqData.limit || +this.config.get('services.pagination.limit'), page: +reqData.page || +this.config.get('services.pagination.page') };
+        let reqBody = { 
+            limit: +reqData.limit || +this.config.get('services.pagination.limit'), 
+            page: +reqData.page || +this.config.get('services.pagination.page'), 
+            ...(reqData.name && { name: reqData.name }),
+            ...(reqData.sku && { sku: reqData.sku })
+        };
         await this.validator.fire(reqBody, FetchProductDto);
         let response = await this.service.fetchProductListService(reqBody);
         return res.success(response)

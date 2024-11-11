@@ -13,6 +13,14 @@ export class FetchProductDto {
     @IsNumber({}, { message: 'Page must be a number!' })
     @IsNotEmpty({ message: 'Page is required!' })
     page: number;
+
+    @IsOptional()
+    @IsString()
+    name?: string;
+
+    @IsOptional()
+    @IsString()
+    sku?: string;
 }
 
 class SettingsDto {

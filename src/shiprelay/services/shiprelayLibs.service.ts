@@ -59,8 +59,16 @@ export class ShipRelayLibService {
     async fetchProductLibService(reqBody: FetchProductDto): Promise<any> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            let fetchProductUrl = `${process.env.SHIPRELAY_API_URL}/products?page=${reqBody.page}&per_page=${reqBody.limit}`;
+            if (reqBody.name) {
+                fetchProductUrl += `&name=${encodeURIComponent(reqBody.name)}`;
+            }
+            if (reqBody.sku) {
+                fetchProductUrl += `&sku=${encodeURIComponent(reqBody.sku)}`;
+            }
+            console.log('fetchProductUrl: ', fetchProductUrl);
             const response = await lastValueFrom(
-                this.httpService.get(`${process.env.SHIPRELAY_API_URL}/products?page=${reqBody.page}&per_page=${reqBody.limit}`, {
+                this.httpService.get(fetchProductUrl, {
                     headers: { Authorization: `Bearer ${token}` }
                 }).pipe(
                     map(response => response.data),
