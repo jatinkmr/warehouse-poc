@@ -8,6 +8,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LocalizationModule } from '@squareboat/nestjs-localization';
 import { RootController } from './controller';
 import { ShipRelayModule } from './shiprelay/module';
+import { QueueModule } from '@squareboat/nest-queue';
+import { RedisQueueDriver } from '@squareboat/nest-queue-redis';
 
 @Module({
   imports: [
@@ -20,6 +22,19 @@ import { ShipRelayModule } from './shiprelay/module';
     LocalizationModule.register({
       path: 'resources/lang',
       fallbackLang: 'en',
+    }),
+    QueueModule.register({
+      isGlobal: true,
+      default: 'notifications',
+      connections: {
+        notifications: {
+          driver: RedisQueueDriver,
+          queue: 'MyQueue',
+          host: 'localhost',
+          port: 6379,
+          database: 0,
+        },
+      },
     }),
     BoatModule,
     UserModule,

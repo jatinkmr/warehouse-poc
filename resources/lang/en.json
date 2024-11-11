@@ -2,6 +2,7 @@
   "homePageWelcome": "Welcome to warehouse management system!",
   "shipRelay": {
     "welcome": "Welcome to shiprelay route!",
-    "productNotFoundError": "Product not found!"
+    "productNotFoundError": "Product not found!",
+    "unAuthorizedError": "Unable to authorized!"
   }
 }
