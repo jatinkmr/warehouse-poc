@@ -57,7 +57,7 @@ export class ShipRelayLibService {
             )
         )
 
-        return response?.data?.length && { data: response.data, meta: response.meta } || [];
+        return { data: response.data, meta: response.meta }
     }
 
     async fetchProductInfoLibService(productId: string): Promise<any> {
