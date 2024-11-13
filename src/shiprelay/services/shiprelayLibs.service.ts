@@ -14,11 +14,11 @@ export class ShipRelayLibService {
 
     private async retryRequestWithNewToken(requestFn: () => Promise<any>, retries = 3): Promise<any> {
         for (let attempt = 1; attempt <= retries; attempt++) {
-            console.log({ type: 'INFO', message: `Attempting attempt - ${attempt}...` });
+            console.log({ type: 'INFO', message: `ShipRelay Attempting attempt - ${attempt}...` });
             try {
                 return await requestFn();
             } catch (error) {
-                console.log({ type: 'ERROR-INFO', attempt, message: `Attempt ${attempt} failed, retrying...` });
+                console.log({ type: 'ERROR-INFO', attempt, message: `ShipRelay Attempt ${attempt} failed, retrying...` });
                 if (error instanceof UnauthorizedException && attempt < retries) {
                     await this.login();
                 } else {
@@ -67,7 +67,6 @@ export class ShipRelayLibService {
             if (reqBody.sku) {
                 fetchProductUrl += `&sku=${encodeURIComponent(reqBody.sku)}`;
             }
-            console.log('fetchProductUrl: ', fetchProductUrl);
             const response = await lastValueFrom(
                 this.httpService.get(fetchProductUrl, {
                     headers: { Authorization: `Bearer ${token}` }
@@ -75,7 +74,7 @@ export class ShipRelayLibService {
                     map(response => response.data),
                     catchError((error: AxiosError) => {
                         if (error.response.status == 401)
-                            throw new UnauthorizedException(__('shipRelay.unAuthorizedError'));
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
                         else
                             throw new BadRequestException(error);
                     })
@@ -95,11 +94,10 @@ export class ShipRelayLibService {
                 }).pipe(
                     map(response => response.data),
                     catchError((error: AxiosError) => {
-                        console.log('error: ', error.response);
                         if (error.response.status == 401)
-                            throw new UnauthorizedException(__('shipRelay.unAuthorizedError'));
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
                         else if (error.response.status == 404)
-                            throw new NotFoundException(__('shipRelay.productNotFoundError'))
+                            throw new NotFoundException(__('errorMessage.productNotFoundError'))
                         else
                             throw new BadRequestException(error);
                     })
@@ -119,7 +117,7 @@ export class ShipRelayLibService {
                     map(response => response.data),
                     catchError((error: AxiosError) => {
                         if (error.response.status == 401)
-                            throw new UnauthorizedException(__('shipRelay.unAuthorizedError'));
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
                         else
                             throw new BadRequestException(error.response.data);
                     })
@@ -138,7 +136,7 @@ export class ShipRelayLibService {
                     map(response => response.data),
                     catchError((error: AxiosError) => {
                         if (error.response.status == 401)
-                            throw new UnauthorizedException(__('shipRelay.unAuthorizedError'));
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
                         else
                             throw new BadRequestException(error.response.data);
                     })
@@ -158,7 +156,7 @@ export class ShipRelayLibService {
                     map(response => response.data),
                     catchError((error: AxiosError) => {
                         if (error.response.status == 401)
-                            throw new UnauthorizedException(__('shipRelay.unAuthorizedError'));
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
                         else
                             throw new BadRequestException(error.response.data);
                     })
@@ -178,7 +176,7 @@ export class ShipRelayLibService {
                     map(response => response.data),
                     catchError((error: AxiosError) => {
                         if (error.response.status == 401)
-                            throw new UnauthorizedException(__('shipRelay.unAuthorizedError'));
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
                         else
                             throw new BadRequestException(error.response.data);
                     })

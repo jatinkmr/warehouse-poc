@@ -42,7 +42,7 @@ export class ExceptionFilter extends BaseExceptionFilter {
     const status = exception.status ? exception.status : 500;
     message = exception.status ? message : 'Internal Server Error';
 
-    const errors = exception?.response?.errors || {};
+    const errors = exception?.response?.errors || (exception?.response?.response?.data || {});
 
     return response.status(status).json({
       success: false,

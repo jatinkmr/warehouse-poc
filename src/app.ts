@@ -10,15 +10,16 @@ import { RootController } from './controller';
 import { ShipRelayModule } from './shiprelay/module';
 import { QueueModule } from '@squareboat/nest-queue';
 import { RedisQueueDriver } from '@squareboat/nest-queue-redis';
+import { MintSoftModule } from './mintsoft/module';
 
 @Module({
   imports: [
-    ObjectionModule.registerAsync({
-      isGlobal: true,
-      imports: [ConfigModule],
-      useFactory: (config: ConfigService) => config.get('db'),
-      inject: [ConfigService],
-    }),
+    // ObjectionModule.registerAsync({
+    //   isGlobal: true,
+    //   imports: [ConfigModule],
+    //   useFactory: (config: ConfigService) => config.get('db'),
+    //   inject: [ConfigService],
+    // }),
     LocalizationModule.register({
       path: 'resources/lang',
       fallbackLang: 'en',
@@ -40,7 +41,8 @@ import { RedisQueueDriver } from '@squareboat/nest-queue-redis';
     UserModule,
     EventModule,
     ConsoleModule,
-    ShipRelayModule
+    ShipRelayModule,
+    MintSoftModule
   ],
   controllers: [RootController],
   providers: [],

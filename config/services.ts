@@ -10,5 +10,11 @@ export default registerAs('services', () => ({
         shipRelayApiUrl: process.env.SHIPRELAY_API_URL,
         shipRelayUserName: process.env.SHIPRELAY_USER_EMAIL,
         shipRelayPassWord: process.env.SHIPRELAY_USER_PASSWORD
+    },
+    mintSoft: {
+        mintSoftApiUrl: process.env.MINTSOFT_API_URL,
+        // mintSoftUserName: process.env.MINSTFOT_USER_NAME,
+        // minSoftPassWord: process.env.MINSTOFT_USER_PASSWORD,
+        mintSoftApiKey: process.env.MINTSOFT_API_KEY
     }
 }));

@@ -1,8 +1,13 @@
 {
   "homePageWelcome": "Welcome to warehouse management system!",
-  "shipRelay": {
-    "welcome": "Welcome to shiprelay route!",
+  "errorMessage": {
     "productNotFoundError": "Product not found!",
     "unAuthorizedError": "Unable to authorized!"
+  },
+  "shipRelay": {
+    "welcome": "Welcome to shiprelay route!"
+  },
+  "mintSoft": {
+    "welcome": "Welcome to mintsoft route!"
   }
 }
