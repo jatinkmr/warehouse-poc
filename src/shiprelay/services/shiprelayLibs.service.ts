@@ -6,6 +6,7 @@ import { FetchProductDto, ProductCreationDto } from "../dto";
 import { AxiosError } from "axios";
 import { __ } from "@squareboat/nestjs-localization";
 import { CacheStore } from '@squareboat/nest-cache';
+import { IProductModel } from "../interface";
 
 @Injectable()
 export class ShipRelayLibService {
@@ -56,7 +57,7 @@ export class ShipRelayLibService {
         return response?.access_token || null;
     }
 
-    async fetchProductLibService(reqBody: FetchProductDto): Promise<any> {
+    async fetchProductLibService(reqBody: FetchProductDto): Promise<IProductModel[]> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let fetchProductUrl = `${process.env.SHIPRELAY_API_URL}/products?page=${reqBody.page}&per_page=${reqBody.limit}`;
@@ -84,7 +85,7 @@ export class ShipRelayLibService {
         });
     }
 
-    async fetchProductInfoLibService(productId: string): Promise<any> {
+    async fetchProductInfoLibService(productId: string): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
 
@@ -107,7 +108,7 @@ export class ShipRelayLibService {
         });
     }
 
-    async productCreationLibService(reqBody: ProductCreationDto): Promise<any> {
+    async productCreationLibService(reqBody: ProductCreationDto): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
 
@@ -127,7 +128,7 @@ export class ShipRelayLibService {
         })
     }
 
-    async productArchiveLibService(productId: string): Promise<any> {
+    async productArchiveLibService(productId: string): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             return await lastValueFrom(
@@ -146,7 +147,7 @@ export class ShipRelayLibService {
         });
     }
 
-    async productRestoreLibService(productId: string): Promise<any> {
+    async productRestoreLibService(productId: string): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
 
@@ -166,7 +167,7 @@ export class ShipRelayLibService {
         })
     }
 
-    async productUpdationLibService(productId: string, reqBody: ProductCreationDto): Promise<any> {
+    async productUpdationLibService(productId: string, reqBody: ProductCreationDto): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
 
