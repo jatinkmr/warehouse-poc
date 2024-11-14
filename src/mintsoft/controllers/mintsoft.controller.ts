@@ -24,7 +24,6 @@ export class MintSoftController extends RestController {
 
     @Get('/product/:productId')
     async fetchProductInfoController(@Req() req: Request, @Res() res: Response, @Param('productId') productId: number): Promise<Response> {
-        console.log('productId: ', productId);
         const response = await this.service.fetchProductInfoService(productId);
         return res.success(response);
     }
