@@ -68,10 +68,10 @@ export class MintSoftController extends RestController {
         let reqBody = {
             limit: +reqData.limit || +this.config.get('services.pagination.limit'),
             page: +reqData.page || +this.config.get('services.pagination.page'),
-            ...(reqData.warehouseId && { warehouseId: reqData.warehouseId }),
-            ...(reqData.orderStatusId && { orderStatusId: reqData.orderStatusId }),
-            ...(reqData.clientId && { clientId: reqData.clientId }),
-            ...(reqData.courierServiceId && { courierServiceId: reqData.courierServiceId })
+            ...(reqData.warehouseId && { warehouseId: +reqData.warehouseId }),
+            ...(reqData.orderStatusId && { orderStatusId: +reqData.orderStatusId }),
+            ...(reqData.clientId && { clientId: +reqData.clientId }),
+            ...(reqData.courierServiceId && { courierServiceId: +reqData.courierServiceId })
         };
         await this.validator.fire(reqBody, FetchOrderDto);
         const response = await this.service.fetchOrderListService(reqBody);
