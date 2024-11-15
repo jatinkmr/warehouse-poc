@@ -5,6 +5,7 @@ import { catchError, lastValueFrom, map } from "rxjs";
 import { AxiosError } from "axios";
 import { __ } from "@squareboat/nestjs-localization";
 import { ICourierModel } from "../interface";
+import { FetchProductDto, UpdateProductDto } from "../dto";
 
 @Injectable()
 export class MintSoftLibService {
@@ -26,13 +27,13 @@ export class MintSoftLibService {
         return this.config.get('services.mintSoft.mintSoftApiKey')
     }
 
-    async fetchProductListLibService(): Promise<any> {
+    async fetchProductListLibService(reqBody: FetchProductDto): Promise<any> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl');
 
             return await lastValueFrom(
-                this.httpService.get(`${url}/Product/List`, {
+                this.httpService.get(`${url}/Product/List?PageNo=${reqBody.page}&Limit=${reqBody.limit}`, {
                     headers: { 'ms-apikey': token }
                 }).pipe(
                     map(response => response.data),
@@ -85,6 +86,48 @@ export class MintSoftLibService {
                             throw new NotFoundException(__('errorMessage.productNotFoundError'))
                         else
                             throw new BadRequestException(error);
+                    })
+                )
+            )
+        })
+    }
+
+    async updateProductLibService(reqBody: UpdateProductDto): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let url = this.config.get('services.mintSoft.mintSoftApiUrl')
+
+            return await lastValueFrom(
+                this.httpService.post(`${url}/Product`, reqBody, {
+                    headers: { 'ms-apikey': token }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error)
+                    })
+                )
+            )
+        })
+    }
+
+    async searchProductLibService(searchText: string): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let url = this.config.get('services.mintSoft.mintSoftApiUrl')
+
+            return await lastValueFrom(
+                this.httpService.get(`${url}/Product/Search?Search=${searchText}`, {
+                    headers: { 'ms-apikey': token }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error)
                     })
                 )
             )

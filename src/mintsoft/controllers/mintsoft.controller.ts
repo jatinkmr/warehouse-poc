@@ -4,6 +4,7 @@ import { Body, Controller, Get, Param, Post, Put, Req, Res } from "@nestjs/commo
 import { ConfigService } from "@nestjs/config";
 import { MintSoftService } from "../services";
 import { __ } from "@squareboat/nestjs-localization";
+import { FetchProductDto, UpdateProductDto } from "../dto";
 
 @Controller('mintsoft')
 export class MintSoftController extends RestController {
@@ -18,7 +19,13 @@ export class MintSoftController extends RestController {
 
     @Get('/product')
     async fetchProductListController(@Req() req: Request, @Res() res: Response): Promise<Response> {
-        const response = await this.service.fetchProductListService();
+        let reqData = req.all();
+        let reqBody = {
+            limit: +reqData.limit || +this.config.get('services.pagination.limit'),
+            page: +reqData.page || +this.config.get('services.pagination.page')
+        };
+        await this.validator.fire(reqBody, FetchProductDto);
+        const response = await this.service.fetchProductListService(reqBody);
         return res.success(response);
     }
 
@@ -31,6 +38,20 @@ export class MintSoftController extends RestController {
     @Get('/courier')
     async fetchCourierController(@Req() req: Request, @Res() res: Response): Promise<Response> {
         const response = await this.service.fetchCourierService();
+        return res.success(response);
+    }
+
+    @Put('/product')
+    async updateProductController(@Req() req: Request, @Res() res: Response, @Body() reqBody: UpdateProductDto): Promise<Response> {
+        await this.validator.fire(reqBody, UpdateProductDto);
+        const response = await this.service.updateProductService(reqBody);
+        return res.success(response);
+    }
+
+    @Get('/search')
+    async searchProductController(@Req() req: Request, @Res() res: Response): Promise<Response> {
+        let reqData = req.all();
+        const response = await this.service.searchProductService(reqData.search);
         return res.success(response);
     }
 }
