@@ -5,7 +5,7 @@ import { catchError, lastValueFrom, map } from "rxjs";
 import { AxiosError } from "axios";
 import { __ } from "@squareboat/nestjs-localization";
 import { ICourierModel } from "../interface";
-import { FetchProductDto, OrderCreationDto, UpdateProductDto } from "../dto";
+import { FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
 
 @Injectable()
 export class MintSoftLibService {
@@ -25,6 +25,27 @@ export class MintSoftLibService {
 
     private async getToken(): Promise<string> {
         return this.config.get('services.mintSoft.mintSoftApiKey')
+    }
+
+    async productCreationLibService(reqBody: ProductDto): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let url = this.config.get('services.mintSoft.mintSoftApiUrl');
+
+            return await lastValueFrom(
+                this.httpService.put(`${url}/Product`, reqBody, {
+                    headers: { 'ms-apikey': token }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error);
+                    })
+                )
+            )
+        })
     }
 
     async fetchProductListLibService(reqBody: FetchProductDto): Promise<any> {

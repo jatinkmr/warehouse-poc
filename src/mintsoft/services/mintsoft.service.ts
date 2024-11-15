@@ -1,11 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { MintSoftLibService } from "./mintsoftLibs.service";
 import { ICourierModel } from "../interface";
-import { FetchProductDto, OrderCreationDto, UpdateProductDto } from "../dto";
+import { FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
 
 @Injectable()
 export class MintSoftService {
     constructor(private mintsoftLibService: MintSoftLibService) { }
+
+    async productCreationService(reqBody: ProductDto): Promise<any> {
+        return await this.mintsoftLibService.productCreationLibService(reqBody);
+    }
 
     async fetchProductListService(reqBody: FetchProductDto): Promise<any> {
         return await this.mintsoftLibService.fetchProductListLibService(reqBody);

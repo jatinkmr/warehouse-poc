@@ -49,7 +49,7 @@ class CountryOfManufactureDto {
     LastUpdatedByUser: string;
 }
 
-export class UpdateProductDto {
+export class ProductDto {
     @ValidateNested()
     @Type(() => CommodityCodeDto)
     CommodityCode: CommodityCodeDto;
@@ -215,14 +215,17 @@ export class UpdateProductDto {
     @IsInt()
     ClientId: number;
 
-    @IsInt()
-    ID: number;
-
     @IsDateString()
     LastUpdated: string;
 
     @IsString()
     LastUpdatedByUser: string;
+}
+
+export class UpdateProductDto extends ProductDto {
+    @IsInt()
+    @IsOptional()
+    ID: number;
 }
 
 class OrderItemNameValueDto {
