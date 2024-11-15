@@ -3,6 +3,7 @@ import {
   ArgumentsHost,
   NotFoundException,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { ValidationFailed, InvalidCredentials, GenericException } from '.';
@@ -22,6 +23,7 @@ export class ExceptionFilter extends BaseExceptionFilter {
   }
 
   catch(exception: any, host: ArgumentsHost) {
+    const logger = new Logger();
     console.error('ERRRR ==> ', exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<any>();
@@ -43,6 +45,8 @@ export class ExceptionFilter extends BaseExceptionFilter {
     message = exception.status ? message : 'Internal Server Error';
 
     const errors = exception?.response?.errors || (exception?.response?.response?.data || {});
+
+    logger.error(`Error occurred due to -> ${message}`)
 
     return response.status(status).json({
       success: false,

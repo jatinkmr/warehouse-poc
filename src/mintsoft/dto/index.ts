@@ -16,7 +16,7 @@ export class FetchProductDto {
 }
 
 class CommodityCodeDto {
-    @IsString()
+    @IsString({ message: 'Code must be a string!' })
     Code: string;
 
     @IsInt()
