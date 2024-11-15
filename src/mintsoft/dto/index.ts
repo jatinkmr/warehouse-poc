@@ -224,3 +224,218 @@ export class UpdateProductDto {
     @IsString()
     LastUpdatedByUser: string;
 }
+
+class OrderItemNameValueDto {
+    @IsString()
+    Name: string;
+
+    @IsString()
+    Value: string;
+}
+
+class OrderItemDto {
+    @IsString()
+    SKU: string;
+
+    @IsInt()
+    ProductId: number;
+
+    @IsInt()
+    Quantity: number;
+
+    @IsString()
+    Details: string;
+
+    @IsNumber()
+    UnitPrice: number;
+
+    @IsNumber()
+    UnitPriceVat: number;
+
+    @IsNumber()
+    Discount: number;
+
+    @ValidateNested({ each: true })
+    @Type(() => OrderItemNameValueDto)
+    @IsArray()
+    OrderItemNameValues: OrderItemNameValueDto[];
+
+    @IsInt()
+    WarehouseId: number;
+
+    @IsString()
+    RequestedSerialNo: string;
+
+    @IsString()
+    RequestedBatchNo: string;
+
+    @IsString()
+    RequestedBBEDate: string;
+}
+
+class OrderNameValueDto {
+    @IsString()
+    Name: string;
+
+    @IsString()
+    Value: string;
+}
+
+class CashOnDeliveryDto {
+    @IsNumber()
+    Amount: number;
+
+    @IsString()
+    CurrencyCode: string;
+}
+
+export class OrderCreationDto {
+    @ValidateNested({ each: true })
+    @Type(() => OrderItemDto)
+    @IsArray()
+    OrderItems: OrderItemDto[];
+
+    @ValidateNested({ each: true })
+    @Type(() => OrderNameValueDto)
+    @IsArray()
+    OrderNameValues: OrderNameValueDto[];
+
+    @IsString()
+    OrderNumber: string;
+
+    @IsString()
+    ExternalOrderReference: string;
+
+    @IsString()
+    Title: string;
+
+    @IsString()
+    CompanyName: string;
+
+    @IsString()
+    FirstName: string;
+
+    @IsString()
+    LastName: string;
+
+    @IsString()
+    Address1: string;
+
+    @IsString()
+    Address2: string;
+
+    @IsString()
+    Address3: string;
+
+    @IsString()
+    Town: string;
+
+    @IsString()
+    County: string;
+
+    @IsString()
+    PostCode: string;
+
+    @IsString()
+    Country: string;
+
+    @IsInt()
+    CountryId: number;
+
+    @IsString()
+    Email: string;
+
+    @IsString()
+    Phone: string;
+
+    @IsString()
+    Mobile: string;
+
+    @IsString()
+    CourierService: string;
+
+    @IsInt()
+    CourierServiceId: number;
+
+    @IsString()
+    Channel: string;
+
+    @IsInt()
+    ChannelId: number;
+
+    @IsString()
+    Warehouse: string;
+
+    @IsInt()
+    WarehouseId: number;
+
+    @IsString()
+    Currency: string;
+
+    @IsInt()
+    CurrencyId: number;
+
+    @IsDateString()
+    DeliveryDate: string;
+
+    @IsDateString()
+    DespatchDate: string;
+
+    @IsDateString()
+    RequiredDeliveryDate: string;
+
+    @IsDateString()
+    RequiredDespatchDate: string;
+
+    @IsString()
+    Comments: string;
+
+    @IsString()
+    DeliveryNotes: string;
+
+    @IsString()
+    GiftMessages: string;
+
+    @IsString()
+    VATNumber: string;
+
+    @IsString()
+    EORINumber: string;
+
+    @IsString()
+    PIDNumber: string;
+
+    @IsString()
+    IOSSNumber: string;
+
+    @IsNumber()
+    OrderValue: number;
+
+    @IsNumber()
+    ShippingTotalExVat: number;
+
+    @IsNumber()
+    ShippingTotalVat: number;
+
+    @IsNumber()
+    DiscountTotalExVat: number;
+
+    @IsNumber()
+    DiscountTotalVat: number;
+
+    @IsNumber()
+    TotalVat: number;
+
+    @IsInt()
+    ClientId: number;
+
+    @IsInt()
+    NumberOfParcels: number;
+
+    @ValidateNested()
+    @Type(() => CashOnDeliveryDto)
+    CashOnDelivery: CashOnDeliveryDto;
+
+    @IsString()
+    RecipientType: string;
+}

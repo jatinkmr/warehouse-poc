@@ -4,7 +4,7 @@ import { Body, Controller, Get, Param, Post, Put, Req, Res } from "@nestjs/commo
 import { ConfigService } from "@nestjs/config";
 import { MintSoftService } from "../services";
 import { __ } from "@squareboat/nestjs-localization";
-import { FetchProductDto, UpdateProductDto } from "../dto";
+import { FetchProductDto, OrderCreationDto, UpdateProductDto } from "../dto";
 
 @Controller('mintsoft')
 export class MintSoftController extends RestController {
@@ -52,6 +52,19 @@ export class MintSoftController extends RestController {
     async searchProductController(@Req() req: Request, @Res() res: Response): Promise<Response> {
         let reqData = req.all();
         const response = await this.service.searchProductService(reqData.search);
+        return res.success(response);
+    }
+
+    @Put('/order')
+    async orderCreationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: OrderCreationDto): Promise<Response> {
+        await this.validator.fire(reqBody, OrderCreationDto)
+        const response = await this.service.orderCreationService(reqBody);
+        return res.success(response);
+    }
+
+    @Get('/order/:orderId')
+    async orderInfoController(@Req() req: Request, @Res() res: Response, @Param('orderId') orderId: number): Promise<Response> {
+        const response = await this.service.orderInfoService(orderId);
         return res.success(response);
     }
 }

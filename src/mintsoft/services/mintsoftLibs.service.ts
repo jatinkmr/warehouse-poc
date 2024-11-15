@@ -5,7 +5,7 @@ import { catchError, lastValueFrom, map } from "rxjs";
 import { AxiosError } from "axios";
 import { __ } from "@squareboat/nestjs-localization";
 import { ICourierModel } from "../interface";
-import { FetchProductDto, UpdateProductDto } from "../dto";
+import { FetchProductDto, OrderCreationDto, UpdateProductDto } from "../dto";
 
 @Injectable()
 export class MintSoftLibService {
@@ -126,6 +126,50 @@ export class MintSoftLibService {
                     catchError((error: AxiosError) => {
                         if (error.response.status == 401)
                             throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error)
+                    })
+                )
+            )
+        })
+    }
+
+    async orderCreationLibService(reqBody: OrderCreationDto): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let url = this.config.get('services.mintSoft.mintSoftApiUrl');
+
+            return await lastValueFrom(
+                this.httpService.put(`${url}/Order`, reqBody, {
+                    headers: { 'ms-apikey': token }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error)
+                    })
+                )
+            )
+        })
+    }
+
+    async orderInfoLibService(orderId: number): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let url = this.config.get('services.mintSoft.mintSoftApiUrl');
+
+            return await lastValueFrom(
+                this.httpService.get(`${url}/Order/${orderId}`, {
+                    headers: { 'ms-apikey': token }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else if (error.response.status == 404)
+                            throw new NotFoundException(__('errorMessage.orderNotFoundError'));
                         else
                             throw new BadRequestException(error)
                     })
