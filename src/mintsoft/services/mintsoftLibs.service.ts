@@ -4,8 +4,8 @@ import { ConfigService } from "@nestjs/config";
 import { catchError, lastValueFrom, map } from "rxjs";
 import { AxiosError } from "axios";
 import { __ } from "@squareboat/nestjs-localization";
-import { ICourierModel } from "../interface";
-import { FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
+import { ICourierModel, IOrderCreation, IProductList, IProductModel, IProductUpdation } from "../interface";
+import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
 
 @Injectable()
 export class MintSoftLibService {
@@ -27,7 +27,7 @@ export class MintSoftLibService {
         return this.config.get('services.mintSoft.mintSoftApiKey')
     }
 
-    async productCreationLibService(reqBody: ProductDto): Promise<any> {
+    async productCreationLibService(reqBody: ProductDto): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl');
@@ -48,7 +48,7 @@ export class MintSoftLibService {
         })
     }
 
-    async fetchProductListLibService(reqBody: FetchProductDto): Promise<any> {
+    async fetchProductListLibService(reqBody: FetchProductDto): Promise<IProductList[]> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl');
@@ -90,7 +90,7 @@ export class MintSoftLibService {
         })
     }
 
-    async fetchProductInfoLibService(productId: number): Promise<any> {
+    async fetchProductInfoLibService(productId: number): Promise<IProductList> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl')
@@ -113,7 +113,7 @@ export class MintSoftLibService {
         })
     }
 
-    async updateProductLibService(reqBody: UpdateProductDto): Promise<any> {
+    async updateProductLibService(reqBody: UpdateProductDto): Promise<IProductUpdation> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl')
@@ -134,7 +134,7 @@ export class MintSoftLibService {
         })
     }
 
-    async searchProductLibService(searchText: string): Promise<any> {
+    async searchProductLibService(searchText: string): Promise<IProductList[]> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl')
@@ -155,7 +155,7 @@ export class MintSoftLibService {
         })
     }
 
-    async orderCreationLibService(reqBody: OrderCreationDto): Promise<any> {
+    async orderCreationLibService(reqBody: OrderCreationDto): Promise<IOrderCreation[]> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl');
@@ -191,6 +191,38 @@ export class MintSoftLibService {
                             throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
                         else if (error.response.status == 404)
                             throw new NotFoundException(__('errorMessage.orderNotFoundError'));
+                        else
+                            throw new BadRequestException(error)
+                    })
+                )
+            )
+        })
+    }
+
+    async fetchOrderListLibService(reqBody: FetchOrderDto): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let url = this.config.get('services.mintSoft.mintSoftApiUrl');
+
+            let fetchOrderUrl = `${url}/Order/List?PageNo=${reqBody.page}&Limit=${reqBody.limit}`;
+            if (reqBody.warehouseId) {
+                fetchOrderUrl += `&WarehouseId=${reqBody.warehouseId}`
+            }
+            if (reqBody.orderStatusId) {
+                fetchOrderUrl += `&OrderStatusId=${reqBody.orderStatusId}`
+            }
+            if (reqBody.courierServiceId) {
+                fetchOrderUrl += `&CourierServiceId=${reqBody.courierServiceId}`
+            }
+
+            return await lastValueFrom(
+                this.httpService.get(fetchOrderUrl, {
+                    headers: { 'ms-apikey': token }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
                         else
                             throw new BadRequestException(error)
                     })

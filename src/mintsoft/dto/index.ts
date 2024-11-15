@@ -442,3 +442,29 @@ export class OrderCreationDto {
     @IsString()
     RecipientType: string;
 }
+
+export class FetchOrderDto {
+    @IsInt({ message: 'Limit must be a positive integer' })
+    @Min(1, { message: 'Limit must be at least 1' })
+    @IsNumber({}, { message: 'Limit must be a number!' })
+    @IsNotEmpty({ message: 'Limit is required!' })
+    limit: number;
+
+    @IsInt({ message: 'Page must be a positive integer' })
+    @Min(1, { message: 'Page must be at least 1' })
+    @IsNumber({}, { message: 'Page must be a number!' })
+    @IsNotEmpty({ message: 'Page is required!' })
+    page: number;
+
+    @IsOptional()
+    @IsNumber({}, { message: 'WarehouseId must be a number!' })
+    warehouseId?: number;
+
+    @IsOptional()
+    @IsNumber({}, { message: 'Order StatusId must be a number!' })
+    orderStatusId?: number;
+
+    @IsOptional()
+    @IsNumber({}, { message: 'Courier ServiceId must be a number!' })
+    courierServiceId?: number;
+}

@@ -4,7 +4,7 @@ import { Body, Controller, Get, Param, Post, Put, Req, Res } from "@nestjs/commo
 import { ConfigService } from "@nestjs/config";
 import { MintSoftService } from "../services";
 import { __ } from "@squareboat/nestjs-localization";
-import { FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
+import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
 
 @Controller('mintsoft')
 export class MintSoftController extends RestController {
@@ -59,6 +59,22 @@ export class MintSoftController extends RestController {
     async searchProductController(@Req() req: Request, @Res() res: Response): Promise<Response> {
         let reqData = req.all();
         const response = await this.service.searchProductService(reqData.search);
+        return res.success(response);
+    }
+
+    @Get('/order')
+    async fetchOrderListController(@Req() req: Request, @Res() res: Response): Promise<Response> {
+        let reqData = req.all();
+        let reqBody = {
+            limit: +reqData.limit || +this.config.get('services.pagination.limit'),
+            page: +reqData.page || +this.config.get('services.pagination.page'),
+            ...(reqData.warehouseId && { warehouseId: reqData.warehouseId }),
+            ...(reqData.orderStatusId && { orderStatusId: reqData.orderStatusId }),
+            ...(reqData.clientId && { clientId: reqData.clientId }),
+            ...(reqData.courierServiceId && { courierServiceId: reqData.courierServiceId })
+        };
+        await this.validator.fire(reqBody, FetchOrderDto);
+        const response = await this.service.fetchOrderListService(reqBody);
         return res.success(response);
     }
 
