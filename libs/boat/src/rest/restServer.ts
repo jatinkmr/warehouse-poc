@@ -4,6 +4,7 @@ import { ServerOptions } from './interfaces';
 import { ConfigService } from '@nestjs/config';
 import { RequestGuard } from './guards';
 import { ExceptionFilter } from '../exceptions';
+import { Logger } from '@nestjs/common';
 
 export class RestServer {
   private module: any;
@@ -15,6 +16,7 @@ export class RestServer {
    */
 
   static async make(module: any, options?: ServerOptions): Promise<void> {
+    const logger = new Logger();
     const app = await NestFactory.create(module);
 
     if (options?.addValidationContainer) {
@@ -33,6 +35,6 @@ export class RestServer {
     const config = app.get(ConfigService, { strict: false });
 
     let PORT = options.port || config.get<number>('app.port');
-    await app.listen(PORT, () => console.log(`server is listening at ${PORT}! and the url is ${process.env.APP_URL}`));
+    await app.listen(PORT, () => logger.log(`server is listening at ${PORT}! and the url is ${process.env.APP_URL}`));
   }
 }
