@@ -20,9 +20,9 @@ export class ShipRelayController extends RestController {
     @Get('/product')
     async fetchProductListController(@Req() req: Request, @Res() res: Response): Promise<Response> {
         let reqData = req.all();
-        let reqBody = { 
-            limit: +reqData.limit || +this.config.get('services.pagination.limit'), 
-            page: +reqData.page || +this.config.get('services.pagination.page'), 
+        let reqBody = {
+            limit: +reqData.limit || +this.config.get('services.pagination.limit'),
+            page: +reqData.page || +this.config.get('services.pagination.page'),
             ...(reqData.name && { name: reqData.name }),
             ...(reqData.sku && { sku: reqData.sku })
         };
@@ -57,7 +57,7 @@ export class ShipRelayController extends RestController {
     }
 
     @Put('/product/:productId')
-    async productUpdationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ProductCreationDto, @Param('productId') productId: string): Promise<any> {
+    async productUpdationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ProductCreationDto, @Param('productId') productId: string): Promise<Response> {
         await this.validator.fire(reqBody, ProductCreationDto);
         let response = await this.service.productUpdationService(productId, reqBody);
         return res.success(response);
