@@ -40,3 +40,63 @@ export interface IProductModel extends ObjectionModel {
     updated_at?: Date;
     archived_at?: Date;
 }
+
+interface IItem {
+    product_id: number;
+    quantity: number;
+    sub_total: number;
+}
+
+interface IParcel {
+    name: string | null;
+    dims: string | null;
+    weight: number | null;
+}
+
+interface ICarrier {
+    carrier: string;
+    service: string | null;
+    options: ICarrierOptions;
+}
+
+interface ICarrierOptions {
+    carrier_insurance: boolean;
+    delivery_confirmation: boolean;
+}
+
+interface Address {
+    name: string;
+    company: string;
+    address1: string;
+    address2: string | null;
+    city: string;
+    region: string;
+    zip: string;
+    country: string;
+    phone: string;
+    email: string;
+}
+
+export interface IShipmentModel extends ObjectionModel {
+    id?: string;
+    reseller_id?: string;
+    type?: string;
+    status?: string;
+    source_order_id?: string;
+    source_shipment_id?: string | null;
+    order_ref?: string;
+    shipment_total_cost?: number;
+    package_ref?: number;
+    notes?: string | null;
+    shipment_created_at?: Date;
+    tags?: string[] | null;
+    shipping_selected_ref?: string | null;
+    items?: IItem[];
+    parcel?: IParcel[];
+    carrier?: ICarrier[];
+    tracking?: string | null;
+    address?: Address;
+    warehouse?: string | null;
+    created_at?: Date;
+    updated_at?: Date;
+}

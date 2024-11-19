@@ -2,7 +2,7 @@ import { Request, Response, RestController } from "@libs/boat";
 import { Body, Controller, Get, Param, Patch, Post, Put, Req, Res } from "@nestjs/common";
 import { ShipRelayService } from "../services";
 import { BaseValidator } from "@libs/boat/validator";
-import { FetchProductDto, ProductCreationDto } from "../dto";
+import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto } from "../dto";
 import { __ } from "@squareboat/nestjs-localization";
 import { ConfigService } from "@nestjs/config";
 
@@ -60,6 +60,45 @@ export class ShipRelayController extends RestController {
     async productUpdationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ProductCreationDto, @Param('productId') productId: string): Promise<Response> {
         await this.validator.fire(reqBody, ProductCreationDto);
         let response = await this.service.productUpdationService(productId, reqBody);
+        return res.success(response);
+    }
+
+    @Post('/shipments')
+    async createShipmentController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ShipmentCreationDto): Promise<Response> {
+        await this.validator.fire(reqBody, ShipmentCreationDto);
+        let response = await this.service.createShipmentService(reqBody);
+        return res.success(response, 201);
+    }
+
+    @Get('/shipments')
+    async fetchShipmentController(@Req() req: Request, @Res() res: Response): Promise<Response> {
+        let reqData = req.all();
+        let reqBody = {
+            limit: +reqData.limit || +this.config.get('services.pagination.limit'),
+            page: +reqData.page || +this.config.get('services.pagination.page'),
+            ...(reqData.status && { status: reqData.status }),
+            ...(reqData.order_ref && { order_ref: reqData.order_ref })
+        };
+        await this.validator.fire(reqBody, ShipmentFetchDto);
+        const response = await this.service.fetchShipmentService(reqBody);
+        return res.success(response);
+    }
+
+    @Get('/shipments/:shipmentId')
+    async fetchShipmentByIdController(@Req() req: Request, @Res() res: Response, @Param('shipmentId') shipmentId: string): Promise<Response> {
+        const response = await this.service.fetchShipmentByIdService(shipmentId);
+        return res.success(response);
+    }
+
+    @Patch('/shipments/:shipmentId/archive')
+    async shipmentArchiveController(@Req() req: Request, @Res() res: Response, @Param('shipmentId') shipmentId: string): Promise<Response> {
+        const response = await this.service.shipmentArchiveService(shipmentId);
+        return res.success(response);
+    }
+
+    @Patch('/shipments/:shipmentId/restore')
+    async shipmentRestoreController(@Req() req: Request, @Res() res: Response, @Param('shipmentId') shipmentId: string): Promise<Response> {
+        const response = await this.service.shipmentRestoreService(shipmentId);
         return res.success(response);
     }
 }

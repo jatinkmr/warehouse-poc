@@ -1,5 +1,5 @@
 import { Transform, Type } from "class-transformer";
-import { IsBoolean, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Min, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsDateString, IsEmail, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Min, ValidateNested } from "class-validator";
 
 export class FetchProductDto {
     @IsInt({ message: 'Limit must be a positive integer' })
@@ -103,4 +103,140 @@ export class ProductCreationDto {
     @ValidateNested()
     @Type(() => SettingsDto)
     settings: SettingsDto;
+}
+
+enum ShipmentStatus {
+    QUEUED = 'queued',
+    HELD = 'held',
+    REQUESTED = 'requested',
+    PROCESSING = 'processing',
+    SHIPPED = 'shipped',
+    RETURNED = 'returned',
+    INACTIVE = 'inactive',
+}
+
+export class ShipmentFetchDto {
+    @IsInt({ message: 'Limit must be a positive integer' })
+    @Min(1, { message: 'Limit must be at least 1' })
+    @IsNumber({}, { message: 'Limit must be a number!' })
+    @IsNotEmpty({ message: 'Limit is required!' })
+    limit: number;
+
+    @IsInt({ message: 'Page must be a positive integer' })
+    @Min(1, { message: 'Page must be at least 1' })
+    @IsNumber({}, { message: 'Page must be a number!' })
+    @IsNotEmpty({ message: 'Page is required!' })
+    page: number;
+
+    @IsEnum(ShipmentStatus, {
+        message: `Status must be one of the following: ${Object.values(ShipmentStatus).join(', ')}`,
+    })
+    @IsOptional()
+    status: ShipmentStatus;
+
+    @IsOptional()
+    order_ref: string;
+}
+
+class AddressDto {
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsString()
+    @IsOptional()
+    company: string;
+
+    @IsString()
+    @IsNotEmpty()
+    address1: string;
+
+    @IsString()
+    @IsOptional()
+    address2: string;
+
+    @IsString()
+    @IsNotEmpty()
+    city: string;
+
+    @IsString()
+    @IsNotEmpty()
+    region: string;
+
+    @IsString()
+    @IsNotEmpty()
+    zip: string;
+
+    @IsString()
+    @IsNotEmpty()
+    country: string;
+
+    @IsString()
+    @IsOptional()
+    phone: string;
+
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+}
+
+class ItemDto {
+    @IsNumber()
+    @IsNotEmpty()
+    product_id: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    quantity: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    price: number;
+}
+
+export class ShipmentCreationDto {
+    @IsString()
+    @IsNotEmpty()
+    source_order_id: string;
+
+    @IsString()
+    @IsNotEmpty()
+    source_shipment_id: string;
+
+    @IsString()
+    @IsNotEmpty()
+    order_ref: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    shipment_total_cost: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    package_ref: number;
+
+    @IsString()
+    @IsOptional()
+    notes: string;
+
+    @IsDateString()
+    @IsNotEmpty()
+    shipment_created_at: string;
+
+    @IsArray()
+    @IsString({ each: true })
+    tags: string[];
+
+    @IsString()
+    @IsOptional()
+    shipping_selected_ref: string;
+
+    @ValidateNested()
+    @Type(() => AddressDto)
+    address: AddressDto;
+
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => ItemDto)
+    items: ItemDto[];
 }

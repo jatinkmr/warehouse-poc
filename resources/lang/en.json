@@ -3,7 +3,8 @@
   "errorMessage": {
     "productNotFoundError": "Product not found!",
     "unAuthorizedError": "Unable to authorized!",
-    "orderNotFoundError": "Order info not found!"
+    "orderNotFoundError": "Order info not found!",
+    "shipmentNotFoundError": "Shipment info not found!"
   },
   "shipRelay": {
     "welcome": "Welcome to shiprelay route!"
