@@ -67,7 +67,7 @@ export class ShipRelayController extends RestController {
     async createShipmentController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ShipmentCreationDto): Promise<Response> {
         await this.validator.fire(reqBody, ShipmentCreationDto);
         let response = await this.service.createShipmentService(reqBody);
-        return res.success(response, 201);
+        return res.success(response);
     }
 
     @Get('/shipments')
@@ -99,6 +99,12 @@ export class ShipRelayController extends RestController {
     @Patch('/shipments/:shipmentId/restore')
     async shipmentRestoreController(@Req() req: Request, @Res() res: Response, @Param('shipmentId') shipmentId: string): Promise<Response> {
         const response = await this.service.shipmentRestoreService(shipmentId);
+        return res.success(response);
+    }
+
+    @Patch('/shipments')
+    async updateShipmentController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ShipmentCreationDto): Promise<Response> {
+        const response = await this.service.updateShipmentService(reqBody);
         return res.success(response);
     }
 }

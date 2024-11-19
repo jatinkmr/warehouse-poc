@@ -50,4 +50,8 @@ export class ShipRelayService {
     async shipmentRestoreService(shipmentId: string): Promise<any> {
         return await this.shipLibService.shipmentRestoreLibService(shipmentId);
     }
+
+    async updateShipmentService(reqBody: ShipmentCreationDto): Promise<any> {
+        return await this.shipLibService.updateShipmentLibService(reqBody);
+    }
 }

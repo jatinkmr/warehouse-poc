@@ -196,6 +196,10 @@ class ItemDto {
 
 export class ShipmentCreationDto {
     @IsString()
+    @IsOptional()
+    id?: string;
+
+    @IsString()
     @IsNotEmpty()
     source_order_id: string;
 

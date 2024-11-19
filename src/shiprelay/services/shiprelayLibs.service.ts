@@ -319,4 +319,25 @@ export class ShipRelayLibService {
             )
         })
     }
+
+    async updateShipmentLibService(reqBody: ShipmentCreationDto): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
+
+            return await lastValueFrom(
+                this.httpService.put(`${shipRelayUrl}/shipments/${reqBody.id}`, reqBody, {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error.response.data);
+                    })
+                )
+            )
+        })
+    }
 }
