@@ -205,7 +205,6 @@ export class ShipRelayLibService {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
-            console.log(`${shipRelayUrl}/shipments`);
 
             return await lastValueFrom(
                 this.httpService.post(`${shipRelayUrl}/shipments`, updatedReqBody, {
@@ -279,9 +278,7 @@ export class ShipRelayLibService {
     async shipmentArchiveLibService(shipmentId: string): Promise<any> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
-            console.log('token: ', token);
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
-            console.log(`${shipRelayUrl}/shipments/${shipmentId}/archive`);
 
             return await lastValueFrom(
                 this.httpService.patch(`${shipRelayUrl}/shipments/${shipmentId}/archive`, {}, {
