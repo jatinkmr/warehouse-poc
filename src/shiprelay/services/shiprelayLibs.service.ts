@@ -276,14 +276,15 @@ export class ShipRelayLibService {
         })
     }
 
-    // in progresss
     async shipmentArchiveLibService(shipmentId: string): Promise<any> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            console.log('token: ', token);
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
+            console.log(`${shipRelayUrl}/shipments/${shipmentId}/archive`);
 
             return await lastValueFrom(
-                this.httpService.patch(`${shipRelayUrl}/shipments/${shipmentId}/archive`, {
+                this.httpService.patch(`${shipRelayUrl}/shipments/${shipmentId}/archive`, {}, {
                     headers: { Authorization: `Bearer ${token}` }
                 }).pipe(
                     map(response => response.data),
@@ -298,14 +299,13 @@ export class ShipRelayLibService {
         })
     }
 
-    // in progress
     async shipmentRestoreLibService(shipmentId: string): Promise<any> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
-                this.httpService.patch(`${shipRelayUrl}/shipments/${shipmentId}/restore`, {
+                this.httpService.patch(`${shipRelayUrl}/shipments/${shipmentId}/restore`, {}, {
                     headers: { Authorization: `Bearer ${token}` }
                 }).pipe(
                     map(response => response.data),
