@@ -104,6 +104,7 @@ export class ShipRelayController extends RestController {
 
     @Patch('/shipments')
     async updateShipmentController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ShipmentCreationDto): Promise<Response> {
+        await this.validator.fire(reqBody, ShipmentCreationDto);
         const response = await this.service.updateShipmentService(reqBody);
         return res.success(response);
     }
