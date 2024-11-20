@@ -265,3 +265,24 @@ export interface IOrderModel {
     LastUpdated?: string;
     LastUpdatedByUser?: string;
 }
+
+export interface IInventoryRecord {
+    ProductId?: number;
+    StockLevel?: number;
+    Allocated?: number;
+    OnHand?: number;
+    AwaitingReplen?: number;
+    OnOrder?: number;
+    RequiredByBackOrder?: number;
+    InQuarantine?: number;
+    InTransit?: number;
+    InTransition?: number;
+    Scrapped?: number;
+    SKU?: string;
+    WarehouseId?: number;
+    LocationId?: number;
+    Breakdown?: string[] | null;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
