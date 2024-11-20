@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { MintSoftLibService } from "./mintsoftLibs.service";
-import { ICourierModel, IInventoryRecord, IOrderCreation, IOrderModel, IProductList, IProductModel, IProductUpdation } from "../interface";
+import { ICourierModel, ICourierServiceType, IInventoryRecord, IOrderCreation, IOrderModel, IProductList, IProductModel, IProductUpdation } from "../interface";
 import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
 
 @Injectable()
@@ -19,7 +19,7 @@ export class MintSoftService {
         return await this.mintsoftLibService.fetchCourierLibService();
     }
 
-    async fetchCourierServiceTypesService(): Promise<any> {
+    async fetchCourierServiceTypesService(): Promise<ICourierServiceType[]> {
         return await this.mintsoftLibService.fetchCourierTypesLibService();
     }
 

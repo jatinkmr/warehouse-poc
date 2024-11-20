@@ -286,3 +286,11 @@ export interface IInventoryRecord {
     LastUpdated?: string;
     LastUpdatedByUser?: string;
 }
+
+export interface ICourierServiceType {
+    Name?: string;
+    Active?: boolean;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string | null;
+}
