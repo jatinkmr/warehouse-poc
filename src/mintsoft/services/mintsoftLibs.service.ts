@@ -90,6 +90,27 @@ export class MintSoftLibService {
         })
     }
 
+    async fetchCourierTypesLibService(): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let url = this.config.get('services.mintSoft.mintSoftApiUrl');
+
+            return await lastValueFrom(
+                this.httpService.get(`${url}/Courier/ServiceTypes`, {
+                    headers: { 'ms-apikey': token }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error);
+                    })
+                )
+            )
+        })
+    }
+
     async fetchProductInfoLibService(productId: number): Promise<IProductList> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
@@ -217,6 +238,27 @@ export class MintSoftLibService {
 
             return await lastValueFrom(
                 this.httpService.get(fetchOrderUrl, {
+                    headers: { 'ms-apikey': token }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error)
+                    })
+                )
+            )
+        })
+    }
+
+    async fetchProductInventoryLibService(productId: number): Promise<any> {
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            let url = this.config.get('services.mintSoft.mintSoftApiUrl');
+
+            return await lastValueFrom(
+                this.httpService.get(`${url}/Product/${productId}/Inventory`, {
                     headers: { 'ms-apikey': token }
                 }).pipe(
                     map(response => response.data),

@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Min, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, Min, ValidateNested } from "class-validator";
 
 export class FetchProductDto {
     @IsInt({ message: 'Limit must be a positive integer' })
@@ -304,6 +304,9 @@ export class OrderCreationDto {
     OrderNameValues: OrderNameValueDto[];
 
     @IsString()
+    @Matches(/^ORD-\d{4}-\d{4}-\d{4}$/, {
+        message: 'OrderNumber must match the format ORD-YYYY-MMDD-XXXX',
+    })
     OrderNumber: string;
 
     @IsString()

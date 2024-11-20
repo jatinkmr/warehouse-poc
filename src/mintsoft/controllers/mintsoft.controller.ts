@@ -42,9 +42,15 @@ export class MintSoftController extends RestController {
         return res.success(response);
     }
 
-    @Get('/courier')
+    @Get('/courier/services')
     async fetchCourierController(@Req() req: Request, @Res() res: Response): Promise<Response> {
         const response = await this.service.fetchCourierService();
+        return res.success(response);
+    }
+
+    @Get('/courier/serviceTypes')
+    async fetchCourierServiceTypesController(@Req() req: Request, @Res() res: Response): Promise<Response> {
+        const response = await this.service.fetchCourierServiceTypesService();
         return res.success(response);
     }
 
@@ -88,6 +94,12 @@ export class MintSoftController extends RestController {
     @Get('/order/:orderId')
     async orderInfoController(@Req() req: Request, @Res() res: Response, @Param('orderId') orderId: number): Promise<Response> {
         const response = await this.service.orderInfoService(orderId);
+        return res.success(response);
+    }
+
+    @Get('/product/:productId/inventory')
+    async fetchProductInventoryController(@Req() req: Request, @Res() res: Response, @Param('productId') productId: number): Promise<Response> {
+        const response = await this.service.fetchProductInventoryService(productId);
         return res.success(response);
     }
 }

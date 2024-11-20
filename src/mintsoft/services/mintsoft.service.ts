@@ -19,6 +19,10 @@ export class MintSoftService {
         return await this.mintsoftLibService.fetchCourierLibService();
     }
 
+    async fetchCourierServiceTypesService(): Promise<any> {
+        return await this.mintsoftLibService.fetchCourierTypesLibService();
+    }
+
     async fetchProductInfoService(productId: number): Promise<IProductList> {
         return await this.mintsoftLibService.fetchProductInfoLibService(productId);
     }
@@ -41,5 +45,9 @@ export class MintSoftService {
 
     async fetchOrderListService(reqBody: FetchOrderDto): Promise<IOrderModel[]> {
         return await this.mintsoftLibService.fetchOrderListLibService(reqBody);
+    }
+
+    async fetchProductInventoryService(productId: number): Promise<any> {
+        return await this.mintsoftLibService.fetchProductInventoryLibService(productId);
     }
 }
