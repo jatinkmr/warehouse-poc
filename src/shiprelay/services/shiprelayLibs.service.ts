@@ -56,12 +56,15 @@ export class ShipRelayLibService {
             ),
         );
 
-        return response?.access_token || null;
+        return response?.access_token || false;
     }
 
     async fetchProductLibService(reqBody: FetchProductDto): Promise<IProductModel[]> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             let fetchProductUrl = `${shipRelayUrl}/products?page=${reqBody.page}&per_page=${reqBody.limit}`;
@@ -91,6 +94,9 @@ export class ShipRelayLibService {
     async fetchProductInfoLibService(productId: string): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -114,6 +120,9 @@ export class ShipRelayLibService {
     async productCreationLibService(reqBody: ProductCreationDto): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -135,6 +144,9 @@ export class ShipRelayLibService {
     async productArchiveLibService(productId: string): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -156,6 +168,9 @@ export class ShipRelayLibService {
     async productRestoreLibService(productId: string): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -177,6 +192,9 @@ export class ShipRelayLibService {
     async productUpdationLibService(productId: string, reqBody: ProductCreationDto): Promise<IProductModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -204,6 +222,9 @@ export class ShipRelayLibService {
 
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -225,6 +246,9 @@ export class ShipRelayLibService {
     async fetchShipmentLibService(reqBody: ShipmentFetchDto): Promise<IShipmentModel[]> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             let fetchShipmentUrl = `${shipRelayUrl}/shipments?page=${reqBody.page}&per_page=${reqBody.limit}`;
@@ -255,6 +279,9 @@ export class ShipRelayLibService {
     async fetchShipmentByIdLibService(shipmentId: string): Promise<IShipmentModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -278,6 +305,9 @@ export class ShipRelayLibService {
     async shipmentArchiveLibService(shipmentId: string): Promise<IShipmentModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -299,6 +329,9 @@ export class ShipRelayLibService {
     async shipmentRestoreLibService(shipmentId: string): Promise<IShipmentModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
@@ -320,6 +353,9 @@ export class ShipRelayLibService {
     async updateShipmentLibService(reqBody: ShipmentCreationDto): Promise<IShipmentModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
 
             return await lastValueFrom(
