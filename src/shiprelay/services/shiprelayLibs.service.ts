@@ -275,7 +275,7 @@ export class ShipRelayLibService {
         })
     }
 
-    async shipmentArchiveLibService(shipmentId: string): Promise<any> {
+    async shipmentArchiveLibService(shipmentId: string): Promise<IShipmentModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
@@ -296,7 +296,7 @@ export class ShipRelayLibService {
         })
     }
 
-    async shipmentRestoreLibService(shipmentId: string): Promise<any> {
+    async shipmentRestoreLibService(shipmentId: string): Promise<IShipmentModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
@@ -317,7 +317,7 @@ export class ShipRelayLibService {
         })
     }
 
-    async updateShipmentLibService(reqBody: ShipmentCreationDto): Promise<any> {
+    async updateShipmentLibService(reqBody: ShipmentCreationDto): Promise<IShipmentModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');

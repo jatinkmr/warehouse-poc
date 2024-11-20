@@ -43,15 +43,15 @@ export class ShipRelayService {
         return await this.shipLibService.fetchShipmentByIdLibService(shipmentId);
     }
 
-    async shipmentArchiveService(shipmentId: string): Promise<any> {
+    async shipmentArchiveService(shipmentId: string): Promise<IShipmentModel> {
         return await this.shipLibService.shipmentArchiveLibService(shipmentId);
     }
 
-    async shipmentRestoreService(shipmentId: string): Promise<any> {
+    async shipmentRestoreService(shipmentId: string): Promise<IShipmentModel> {
         return await this.shipLibService.shipmentRestoreLibService(shipmentId);
     }
 
-    async updateShipmentService(reqBody: ShipmentCreationDto): Promise<any> {
+    async updateShipmentService(reqBody: ShipmentCreationDto): Promise<IShipmentModel> {
         return await this.shipLibService.updateShipmentLibService(reqBody);
     }
 }
