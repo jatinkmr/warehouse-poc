@@ -105,3 +105,163 @@ export interface IOrderCreation {
     Message?: string;
     OrderItems?: string | number | null;
 }
+
+interface IOrderChannel {
+    Name?: string;
+    Description?: string | null;
+    Active?: boolean;
+    Logo?: string;
+    ClientId?: number;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+interface IOrderCountry {
+    Name?: string;
+    Code?: string;
+    Code3?: string;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+interface IOrderCurrency {
+    Name?: string;
+    Code?: string;
+    Symbol?: string;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+interface IOrderNameValue {
+    OrderId?: number;
+    Name?: string;
+    Value?: string;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+interface IOrderRecipientType {
+    Name?: string;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+interface IOrderItemNameValues {
+    Name?: string;
+    Value?: string;
+    Internal?: boolean;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+interface IOrderItems {
+    OrderItemNameValues: IOrderItemNameValues[],
+    OrderId?: number;
+    ProductId?: number;
+    Quantity?: number;
+    Allocated?: number;
+    Commited?: number;
+    OnBackOrder?: number;
+    SourceLineSubTotal?: number | null;
+    SourceLineTotalTax?: number | null;
+    SourceLineTotalDiscount?: number | null;
+    SourceLineTotal?: number | null;
+    Price?: number;
+    Vat?: number;
+    Discount?: number;
+    PriceNet?: number;
+    Tax?: number;
+    DiscountGross?: number;
+    TaxRate?: number | null;
+    DiscountNet?: number | null;
+    DiscountTax?: number | null;
+    NetPaid?: number;
+    TaxPaid?: number;
+    TotalTax?: number;
+    Details?: string;
+    SKU?: string;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+export interface IOrderModel {
+    Channel?: IOrderChannel,
+    Country?: IOrderCountry,
+    Currency?: IOrderCurrency,
+    OrderNameValues: IOrderNameValue[],
+    RecipientType: IOrderRecipientType,
+    ClientId?: number;
+    CLIENT_CODE?: string | null;
+    OrderNumber?: string;
+    ExternalOrderReference?: string;
+    OrderDate?: string;
+    DespatchDate?: string | null;
+    RequiredDespatchDate?: string;
+    RequiredDeliveryDate?: string;
+    Title?: string;
+    FirstName?: string;
+    LastName?: string;
+    CompanyName?: string;
+    Address1?: string;
+    Address2?: string;
+    Address3?: string;
+    Town?: string;
+    County?: string;
+    PostCode?: string;
+    Phone?: string;
+    Mobile?: string;
+    Email?: string;
+    CountryId?: number;
+    Source?: string;
+    Comments?: string;
+    GiftMessages?: string;
+    DeliveryNotes?: string;
+    VATNumber?: string;
+    EORINumber?: string;
+    PIDNumber?: string;
+    OrderStatusId?: number;
+    NumberOfParcels?: number;
+    TotalItems?: number;
+    TotalWeight?: number;
+    OrderValue?: number;
+    Part?: number;
+    NumberOfParts?: number;
+    CourierServiceTypeId?: number;
+    CourierServiceId?: number;
+    CourierServiceName?: string;
+    TrackingNumber?: string | null;
+    TrackingURL?: string;
+    ShippingTotalExVat?: number;
+    DiscountTotalExVat?: number;
+    DiscountTotalVat?: number;
+    TotalVat?: number;
+    PIIRemoved?: boolean;
+    ShippingNet?: number;
+    ShippingTax?: number;
+    ShippingGross?: number;
+    DiscountNet?: number;
+    DiscountTax?: number;
+    TotalOrderNet?: number | null;
+    TotalOrderTax?: number;
+    TotalOrderGross?: number;
+    DiscountGross?: number;
+    WarehouseId?: number;
+    WAREHOUSE_CODE?: string | null;
+    ChannelId?: number;
+    CurrencyId?: number;
+    DespatchedByUser: string | null;
+    OrderItems: IOrderItems[],
+    OrderLock?: boolean;
+    Tags?: string | null;
+    SourceOrderDate?: string | null;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}

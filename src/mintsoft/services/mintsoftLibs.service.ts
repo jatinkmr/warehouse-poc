@@ -4,7 +4,7 @@ import { ConfigService } from "@nestjs/config";
 import { catchError, lastValueFrom, map } from "rxjs";
 import { AxiosError } from "axios";
 import { __ } from "@squareboat/nestjs-localization";
-import { ICourierModel, IOrderCreation, IProductList, IProductModel, IProductUpdation } from "../interface";
+import { ICourierModel, IOrderCreation, IOrderModel, IProductList, IProductModel, IProductUpdation } from "../interface";
 import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
 
 @Injectable()
@@ -176,7 +176,7 @@ export class MintSoftLibService {
         })
     }
 
-    async orderInfoLibService(orderId: number): Promise<any> {
+    async orderInfoLibService(orderId: number): Promise<IOrderModel> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl');
@@ -199,7 +199,7 @@ export class MintSoftLibService {
         })
     }
 
-    async fetchOrderListLibService(reqBody: FetchOrderDto): Promise<any> {
+    async fetchOrderListLibService(reqBody: FetchOrderDto): Promise<IOrderModel[]> {
         return this.retryRequestWithNewToken(async () => {
             const token = await this.getToken();
             let url = this.config.get('services.mintSoft.mintSoftApiUrl');
