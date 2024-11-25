@@ -5,6 +5,7 @@ import { ConfigService } from "@nestjs/config";
 import { MintSoftService } from "../services";
 import { __ } from "@squareboat/nestjs-localization";
 import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, ReturnCreationDto, UpdateProductDto } from "../dto";
+import { plainToInstance } from "class-transformer";
 
 @Controller('mintsoft')
 export class MintSoftController extends RestController {
@@ -19,8 +20,9 @@ export class MintSoftController extends RestController {
 
     @Put('/product')
     async productCreationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ProductDto): Promise<Response> {
-        await this.validator.fire(reqBody, ProductDto)
-        const response = await this.service.productCreationService(reqBody);
+        const data = plainToInstance(ProductDto, reqBody);
+        await this.validator.fire(data, ProductDto)
+        const response = await this.service.productCreationService(data);
         return res.success(response);
     }
 
@@ -56,8 +58,9 @@ export class MintSoftController extends RestController {
 
     @Put('/product')
     async updateProductController(@Req() req: Request, @Res() res: Response, @Body() reqBody: UpdateProductDto): Promise<Response> {
-        await this.validator.fire(reqBody, UpdateProductDto);
-        const response = await this.service.updateProductService(reqBody);
+        const data = plainToInstance(UpdateProductDto, reqBody);
+        await this.validator.fire(data, UpdateProductDto);
+        const response = await this.service.updateProductService(data);
         return res.success(response);
     }
 

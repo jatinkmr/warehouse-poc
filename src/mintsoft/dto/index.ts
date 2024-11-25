@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, Min, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsDate, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, Min, ValidateNested } from "class-validator";
 
 export class FetchProductDto {
     @IsInt({ message: 'Limit must be a positive integer' })
@@ -22,11 +22,11 @@ class CommodityCodeDto {
     @IsInt()
     ID: number;
 
-    @IsDateString()
-    LastUpdated: string;
+    @IsOptional()
+    LastUpdated: Date = new Date();
 
     @IsString()
-    LastUpdatedByUser: string;
+    LastUpdatedByUser: string = "gray.porter";
 }
 
 class CountryOfManufactureDto {
@@ -42,11 +42,11 @@ class CountryOfManufactureDto {
     @IsInt()
     ID: number;
 
-    @IsDateString()
-    LastUpdated: string;
+    @IsOptional()
+    LastUpdated: Date = new Date();
 
     @IsString()
-    LastUpdatedByUser: string;
+    LastUpdatedByUser: string = "gray.porter";
 }
 
 export class ProductDto {
@@ -215,11 +215,11 @@ export class ProductDto {
     @IsInt()
     ClientId: number;
 
-    @IsDateString()
-    LastUpdated: string;
+    @IsOptional()
+    LastUpdated: Date = new Date();
 
     @IsString()
-    LastUpdatedByUser: string;
+    LastUpdatedByUser: string = "gray.porter";
 }
 
 export class UpdateProductDto extends ProductDto {
