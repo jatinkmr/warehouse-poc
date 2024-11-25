@@ -76,6 +76,17 @@ class SettingsDto {
     default_retail_price_per_unit: number;
 }
 
+enum CategoryEnum {
+    HARD_GOODS = 'hard-goods',
+    SOFT_GOODS = 'soft-goods',
+    COMMODITY = 'commodity',
+    GLASS = 'glass',
+    MEDIA = 'media',
+    BOXING = 'boxing',
+    PRINT = 'print',
+    PACKAGING = 'packaging',
+}
+
 export class ProductCreationDto {
     @IsString()
     @Length(5, 20, { message: 'Source ID must be between 5 and 20 characters.' })
@@ -83,7 +94,8 @@ export class ProductCreationDto {
 
     @IsString()
     @Length(3, 20, { message: 'Category must be between 3 and 20 characters.' })
-    category: string;
+    @IsEnum(CategoryEnum, { message: 'Invalid category. Must be one of the predefined values.' })
+    category: CategoryEnum;
 
     @IsString()
     @Length(5, 15, { message: 'Barcode must be between 5 and 15 characters.' })
