@@ -294,3 +294,44 @@ export interface ICourierServiceType {
     LastUpdated?: string;
     LastUpdatedByUser?: string | null;
 }
+
+export interface IReturnReason {
+    Name?: string;
+    StockAction?: string;
+    Active?: boolean;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+export interface IReturnCreation {
+    ID?: number;
+    Success?: boolean;
+    Message?: string;
+    WarningMessage?: string | null;
+    AllocatedFromReplen?: boolean;
+}
+
+export interface IReturnInfo {
+    OrderId?: number;
+    AdvancedExternalReturn?: boolean;
+    Confirmed?: boolean;
+    Exchanged?: boolean;
+    Refunded?: boolean;
+    ExchangedOrderId?: number;
+    Invoiced?: boolean;
+    Reference?: string | null;
+    OrderNumber?: string;
+    ClientId?: number;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}
+
+export interface IOrderStatus {
+    Name?: string;
+    ExternalName?: string;
+    ID?: number;
+    LastUpdated?: string;
+    LastUpdatedByUser?: string;
+}

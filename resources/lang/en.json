@@ -4,7 +4,8 @@
     "productNotFoundError": "Product not found!",
     "unAuthorizedError": "Unable to authorized!",
     "orderNotFoundError": "Order info not found!",
-    "shipmentNotFoundError": "Shipment info not found!"
+    "shipmentNotFoundError": "Shipment info not found!",
+    "returnNotFoundError": "Return info not found!"
   },
   "shipRelay": {
     "welcome": "Welcome to shiprelay route!"

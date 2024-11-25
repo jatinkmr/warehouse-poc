@@ -4,7 +4,7 @@ import { Body, Controller, Get, Param, Post, Put, Req, Res } from "@nestjs/commo
 import { ConfigService } from "@nestjs/config";
 import { MintSoftService } from "../services";
 import { __ } from "@squareboat/nestjs-localization";
-import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
+import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, ReturnCreationDto, UpdateProductDto } from "../dto";
 
 @Controller('mintsoft')
 export class MintSoftController extends RestController {
@@ -100,6 +100,31 @@ export class MintSoftController extends RestController {
     @Get('/product/:productId/inventory')
     async fetchProductInventoryController(@Req() req: Request, @Res() res: Response, @Param('productId') productId: number): Promise<Response> {
         const response = await this.service.fetchProductInventoryService(productId);
+        return res.success(response);
+    }
+
+    @Get('/order-status')
+    async fetchOrderStatusController(@Req() req: Request, @Res() res: Response): Promise<Response> {
+        const response = await this.service.fetchOrderStatusService();
+        return res.success(response);
+    }
+
+    @Get('/return/reason')
+    async fetchAllReturnReasonController(@Req() req: Request, @Res() res: Response): Promise<Response> {
+        const response = await this.service.fetchAllReturnReasonService();
+        return res.success(response);
+    }
+
+    @Post('/return')
+    async createReturnController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ReturnCreationDto): Promise<Response> {
+        await this.validator.fire(reqBody, ReturnCreationDto);
+        const response = await this.service.createReturnService(reqBody);
+        return res.success(response);
+    }
+
+    @Get('/return/:returnId')
+    async fetchReturnInfoController(@Req() req: Request, @Res() res: Response, @Param('returnId') returnId: number): Promise<Response> {
+        const response = await this.service.fetchReturnInfoService(returnId);
         return res.success(response);
     }
 }

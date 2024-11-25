@@ -471,3 +471,9 @@ export class FetchOrderDto {
     @IsNumber({}, { message: 'Courier ServiceId must be a number!' })
     courierServiceId?: number;
 }
+
+export class ReturnCreationDto {
+    @IsNumber({}, { message: 'OrderId must be a number!' })
+    @IsNotEmpty({ message: 'OrderId is required!' })
+    OrderId: number;
+}

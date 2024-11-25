@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { MintSoftLibService } from "./mintsoftLibs.service";
-import { ICourierModel, ICourierServiceType, IInventoryRecord, IOrderCreation, IOrderModel, IProductList, IProductModel, IProductUpdation } from "../interface";
-import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, UpdateProductDto } from "../dto";
+import { ICourierModel, ICourierServiceType, IInventoryRecord, IOrderCreation, IOrderModel, IOrderStatus, IProductList, IProductModel, IProductUpdation, IReturnCreation, IReturnInfo, IReturnReason } from "../interface";
+import { FetchOrderDto, FetchProductDto, OrderCreationDto, ProductDto, ReturnCreationDto, UpdateProductDto } from "../dto";
 
 @Injectable()
 export class MintSoftService {
@@ -49,5 +49,21 @@ export class MintSoftService {
 
     async fetchProductInventoryService(productId: number): Promise<IInventoryRecord[]> {
         return await this.mintsoftLibService.fetchProductInventoryLibService(productId);
+    }
+
+    async fetchOrderStatusService(): Promise<IOrderStatus> {
+        return await this.mintsoftLibService.fetchOrderStatusLibService();
+    }
+
+    async fetchAllReturnReasonService(): Promise<IReturnReason[]> {
+        return await this.mintsoftLibService.fetchAllReturnReasonLibService();
+    }
+
+    async createReturnService(reqBody: ReturnCreationDto): Promise<IReturnCreation> {
+        return await this.mintsoftLibService.createReturnLibService(reqBody);
+    }
+
+    async fetchReturnInfoService(returnId: number): Promise<IReturnInfo> {
+        return await this.mintsoftLibService.fetchReturnInfoLibService(returnId);
     }
 }

@@ -35,6 +35,6 @@ export class RestServer {
     const config = app.get(ConfigService, { strict: false });
 
     let PORT = options.port || config.get<number>('app.port');
-    await app.listen(PORT, () => logger.log(`server is listening at ${PORT}! and the url is ${process.env.APP_URL}`));
+    await app.listen(PORT, () => logger.log(`server is listening at ${PORT}! and the url is ${config.get('app.url')}`));
   }
 }
