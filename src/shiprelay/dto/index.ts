@@ -94,7 +94,9 @@ export class ProductCreationDto {
 
     @IsString()
     @Length(3, 20, { message: 'Category must be between 3 and 20 characters.' })
-    @IsEnum(CategoryEnum, { message: 'Invalid category. Must be one of the predefined values.' })
+    @IsEnum(CategoryEnum, {
+        message: `Invalid category. Must be one of the following: ${Object.values(CategoryEnum).join(', ')}`,
+    })
     category: CategoryEnum;
 
     @IsString()
