@@ -258,3 +258,33 @@ export class ShipmentCreationDto {
     @Type(() => ItemDto)
     items: ItemDto[];
 }
+
+export class ShipmentShippedDto {
+    @IsString()
+    @IsNotEmpty()
+    source_order_id: string;
+
+    @IsString()
+    @IsNotEmpty()
+    source_shipment_id: string;
+
+    @IsString()
+    @IsNotEmpty()
+    order_ref: string;
+
+    @IsString()
+    @IsNotEmpty()
+    tracking_number: string;
+
+    @IsString()
+    @IsNotEmpty()
+    tracking_url: string;
+
+    @IsString()
+    @IsNotEmpty()
+    carrier: string;
+
+    @IsString()
+    @IsNotEmpty()
+    service: string;
+}

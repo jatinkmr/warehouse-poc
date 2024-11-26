@@ -1,8 +1,8 @@
 import { HttpService } from "@nestjs/axios";
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { catchError, lastValueFrom, map } from "rxjs";
-import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto } from "../dto";
+import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto, ShipmentShippedDto } from "../dto";
 import { AxiosError } from "axios";
 import { __ } from "@squareboat/nestjs-localization";
 import { CacheStore } from '@squareboat/nest-cache';
@@ -372,5 +372,11 @@ export class ShipRelayLibService {
                 )
             )
         })
+    }
+
+    async shipmentShippedLibService(reqBody: ShipmentShippedDto): Promise<any> {
+        const logger = new Logger();
+        logger.log('Data recv from ShipRelay after successfull shipment -> ', reqBody)
+        return true;
     }
 }
