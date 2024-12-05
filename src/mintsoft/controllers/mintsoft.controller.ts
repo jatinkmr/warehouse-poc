@@ -18,7 +18,7 @@ export class MintSoftController extends RestController {
         return __('mintSoft.welcome')
     }
 
-    @Put('/product')
+    @Post('/product')
     async productCreationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ProductDto): Promise<Response> {
         const data = plainToInstance(ProductDto, reqBody);
         await this.validator.fire(data, ProductDto)

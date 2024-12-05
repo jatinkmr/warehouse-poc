@@ -1,5 +1,5 @@
 import { Transform, Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDate, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, Min, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsDate, IsDateString, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, MaxLength, Min, ValidateNested } from "class-validator";
 
 export class FetchProductDto {
     @IsInt({ message: 'Limit must be a positive integer' })
@@ -16,249 +16,75 @@ export class FetchProductDto {
     page: number;
 }
 
-class CommodityCodeDto {
-    @IsString({ message: 'Code must be a string!' })
-    @Transform(({ value }) => value?.trim())
-    Code: string;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    ID: number;
-
-    @IsOptional()
-    LastUpdated: Date = new Date();
-
-    @IsString()
-    LastUpdatedByUser: string = "gray.porter";
-}
-
-class CountryOfManufactureDto {
-    @IsString()
-    @Transform(({ value }) => value?.trim())
-    Name: string;
-
-    @IsString()
-    @Transform(({ value }) => value?.trim())
-    Code: string;
-
-    @IsString()
-    @Transform(({ value }) => value?.trim())
-    Code3: string;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    ID: number;
-
-    @IsOptional()
-    LastUpdated: Date = new Date();
-
-    @IsString()
-    LastUpdatedByUser: string = "gray.porter";
-}
-
 export class ProductDto {
-    @ValidateNested()
-    @Type(() => CommodityCodeDto)
-    CommodityCode: CommodityCodeDto;
-
-    @ValidateNested()
-    @Type(() => CountryOfManufactureDto)
-    CountryOfManufacture: CountryOfManufactureDto;
-
-    @IsOptional()
-    @IsArray()
-    ProductInCategories: any[];
-
-    @IsOptional()
-    @IsArray()
-    ProductPrices: any[];
-
-    @IsOptional()
-    @IsArray()
-    ProductSuppliers: any[];
-
-    @IsString()
+    @IsString({ message: 'SKU must be a string!' })
+    @IsNotEmpty({ message: 'SKU is required!' })
+    @MaxLength(75, { message: 'SKU must not exceed 75 characters!' })
     @Transform(({ value }) => value?.trim())
     SKU: string;
 
-    @IsString()
+    @IsString({ message: 'Name must be a string!' })
+    @IsNotEmpty({ message: 'Name is required!' })
+    @MaxLength(99, { message: 'Name must not exceed 99 characters!' })
     @Transform(({ value }) => value?.trim())
     Name: string;
 
-    @IsString()
-    @IsOptional()
-    @Transform(({ value }) => value?.trim())
-    PalletSizes: string;
-
-    @IsOptional()
-    @Transform(({ value }) => value?.trim())
-    PackingInstructions: string | null;
-
-    @IsString()
+    @IsString({ message: 'Description must be a string!' })
+    @IsNotEmpty({ message: 'Description is required!' })
     @Transform(({ value }) => value?.trim())
     Description: string;
 
-    @IsString()
-    @Transform(({ value }) => value?.trim())
-    CustomsDescription: string;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    CountryOfManufactureId: number;
-
-    @IsString()
-    @Transform(({ value }) => value?.trim())
-    EAN: string;
-
-    @IsString()
-    @Transform(({ value }) => value?.trim())
-    UPC: string;
-
-    @IsInt()
-    LowStockAlertLevel: number;
-
-    @IsNumber()
-    @Transform(obj => +obj.value)
+    @IsNumber({}, { message: 'Weight must be a valid number!' })
+    @Transform(({ value }) => (value !== null && value !== undefined ? +value : value))
     Weight: number;
 
-    @IsOptional()
-    @IsNumber()
-    @Transform(obj => +obj.value)
-    Height: number | null;
-
-    @IsOptional()
-    @IsNumber()
-    @Transform(obj => +obj.value)
-    Width: number | null;
-
-    @IsOptional()
-    @IsNumber()
-    @Transform(obj => +obj.value)
-    Depth: number | null;
-
-    @IsOptional()
-    @IsNumber()
-    @Transform(obj => +obj.value)
-    Volume: number | null;
-
-    @IsBoolean()
-    BackOrder: boolean;
-
-    @IsBoolean()
-    Bundle: boolean;
-
-    @IsBoolean()
-    DisCont: boolean;
-
-    @IsNumber()
-    @Transform(obj => +obj.value)
-    Price: number;
-
-    @IsNumber()
-    @Transform(obj => +obj.value)
-    CostPrice: number;
-
-    @IsBoolean()
-    VatExempt: boolean;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    AdditionalParcelsRequired: number;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    UnitsPerParcel: number;
-
-    @IsBoolean()
-    HasBatchNumber: boolean;
-
-    @IsOptional()
-    LogBatchInbound: any | null;
-
-    @IsOptional()
-    LogBatchOutbound: any | null;
-
-    @IsBoolean()
-    HasSerialNumber: boolean;
-
-    @IsOptional()
-    LogSerialInbound: any | null;
-
-    @IsOptional()
-    LogSerialOutbound: any | null;
-
-    @IsBoolean()
-    HasExpiryDate: boolean;
-
-    @IsOptional()
-    LogExpiryDateInbound: any | null;
-
-    @IsOptional()
-    LogExpiryDateOutbound: any | null;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    BestBeforeDateWarningPeriodDays: number;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    HandlingTime: number;
-
-    @IsOptional()
-    @IsString()
-    @Transform(({ value }) => value?.trim())
-    UnNumber: string | null;
-
-    @IsString()
+    @IsString({ message: 'ImageURL must be a string!' })
+    @IsNotEmpty({ message: 'ImageURL is required!' })
     @Transform(({ value }) => value?.trim())
     ImageURL: string;
 
     @IsOptional()
-    ProductHazardousGoods: any | null;
-
-    @IsOptional()
-    ProductPurchasingSettings: any | null;
-
-    @IsOptional()
-    ProductGrowthRates: any | null;
-
-    @IsOptional()
-    ExternalFulFilmentProduct: any | null;
-
-    @IsOptional()
-    ExternalFulFilmentProductInventory: any | null;
-
-    @IsOptional()
-    OrderItems: any | null;
-
-    @IsBoolean()
-    Subscription: boolean;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    SubscriptionLength: number;
-
-    @IsOptional()
-    @IsString()
-    @Transform(({ value }) => value?.trim())
-    SubscriptionFrequency: string | null;
-
-    @IsInt()
-    @Transform(obj => +obj.value)
-    ClientId: number;
-
-    @IsOptional()
     LastUpdated: Date = new Date();
 
     @IsString()
     LastUpdatedByUser: string = "gray.porter";
 }
 
-export class UpdateProductDto extends ProductDto {
+export class UpdateProductDto {
     @IsInt()
     @IsOptional()
     @Transform(obj => +obj.value)
     ID: number;
+
+    @IsOptional()
+    @Transform(({ value }) => value?.trim())
+    SKU?: string;
+
+    @IsString({ message: 'Name must be a string!' })
+    @IsNotEmpty({ message: 'Name is required!' })
+    @MaxLength(99, { message: 'Name must not exceed 99 characters!' })
+    @Transform(({ value }) => value?.trim())
+    Name: string;
+
+    @IsString({ message: 'Description must be a string!' })
+    @IsNotEmpty({ message: 'Description is required!' })
+    @Transform(({ value }) => value?.trim())
+    Description: string;
+
+    @IsNumber({}, { message: 'Weight must be a valid number!' })
+    @Transform(({ value }) => (value !== null && value !== undefined ? +value : value))
+    Weight: number;
+
+    @IsString({ message: 'ImageURL must be a string!' })
+    @IsNotEmpty({ message: 'ImageURL is required!' })
+    @Transform(({ value }) => value?.trim())
+    ImageURL: string;
+
+    @IsOptional()
+    LastUpdated: Date = new Date();
+
+    @IsString()
+    LastUpdatedByUser: string = "gray.porter";
 }
 
 class OrderItemNameValueDto {
@@ -300,23 +126,28 @@ class OrderItemDto {
     @Transform(obj => +obj.value)
     Discount: number;
 
+    @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => OrderItemNameValueDto)
     @IsArray()
-    OrderItemNameValues: OrderItemNameValueDto[];
+    OrderItemNameValues?: OrderItemNameValueDto[];
 
+    @IsOptional()
     @IsInt()
     @Transform(obj => +obj.value)
-    WarehouseId: number;
+    WarehouseId?: number;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
     RequestedSerialNo: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
     RequestedBatchNo: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
     RequestedBBEDate: string;
@@ -348,10 +179,11 @@ export class OrderCreationDto {
     @IsArray()
     OrderItems: OrderItemDto[];
 
+    @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => OrderNameValueDto)
     @IsArray()
-    OrderNameValues: OrderNameValueDto[];
+    OrderNameValues?: OrderNameValueDto[];
 
     @IsString()
     @Matches(/^ORD-\d{4}-\d{4}-\d{4}$/, {
@@ -360,25 +192,29 @@ export class OrderCreationDto {
     @Transform(({ value }) => value?.trim())
     OrderNumber: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    ExternalOrderReference: string;
+    ExternalOrderReference?: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    Title: string;
+    Title?: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    CompanyName: string;
+    CompanyName?: string;
 
     @IsString()
     @Transform(({ value }) => value?.trim())
     FirstName: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    LastName: string;
+    LastName?: string;
 
     @IsString()
     @Transform(({ value }) => value?.trim())
@@ -388,17 +224,19 @@ export class OrderCreationDto {
     @Transform(({ value }) => value?.trim())
     Address2: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    Address3: string;
+    Address3?: string;
 
     @IsString()
     @Transform(({ value }) => value?.trim())
     Town: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    County: string;
+    County?: string;
 
     @IsString()
     @Transform(({ value }) => value?.trim())
@@ -408,41 +246,48 @@ export class OrderCreationDto {
     @Transform(({ value }) => value?.trim())
     Country: string;
 
+    @IsOptional()
     @IsInt()
     @Transform(obj => +obj.value)
-    CountryId: number;
+    CountryId?: number;
 
     @IsString()
     @Transform(({ value }) => value?.trim())
     Email: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    Phone: string;
+    Phone?: string;
 
     @IsString()
     @Transform(({ value }) => value?.trim())
     Mobile: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    CourierService: string;
+    CourierService?: string;
 
+    @IsOptional()
     @IsInt()
     @Transform(obj => +obj.value)
-    CourierServiceId: number;
+    CourierServiceId?: number;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    Channel: string;
+    Channel?: string;
 
+    @IsOptional()
     @IsInt()
     @Transform(obj => +obj.value)
-    ChannelId: number;
+    ChannelId?: number;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    Warehouse: string;
+    Warehouse?: string;
 
     @IsInt()
     @Transform(obj => +obj.value)
@@ -452,25 +297,30 @@ export class OrderCreationDto {
     @Transform(({ value }) => value?.trim())
     Currency: string;
 
+    @IsOptional()
     @IsInt()
     @Transform(obj => +obj.value)
-    CurrencyId: number;
+    CurrencyId?: number;
 
+    @IsOptional()
     @IsDateString()
     @Transform(({ value }) => value?.trim())
-    DeliveryDate: string;
+    DeliveryDate?: string;
 
+    @IsOptional()
     @IsDateString()
     @Transform(({ value }) => value?.trim())
-    DespatchDate: string;
+    DespatchDate?: string;
 
+    @IsOptional()
     @IsDateString()
     @Transform(({ value }) => value?.trim())
-    RequiredDeliveryDate: string;
+    RequiredDeliveryDate?: string;
 
+    @IsOptional()
     @IsDateString()
     @Transform(({ value }) => value?.trim())
-    RequiredDespatchDate: string;
+    RequiredDespatchDate?: string;
 
     @IsString()
     @Transform(({ value }) => value?.trim())
@@ -484,53 +334,65 @@ export class OrderCreationDto {
     @Transform(({ value }) => value?.trim())
     GiftMessages: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    VATNumber: string;
+    VATNumber?: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    EORINumber: string;
+    EORINumber?: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    PIDNumber: string;
+    PIDNumber?: string;
 
+    @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    IOSSNumber: string;
+    IOSSNumber?: string;
 
+    @IsOptional()
     @IsNumber()
     @Transform(obj => +obj.value)
-    OrderValue: number;
+    OrderValue?: number;
 
+    @IsOptional()
     @IsNumber()
     @Transform(obj => +obj.value)
-    ShippingTotalExVat: number;
+    ShippingTotalExVat?: number;
 
+    @IsOptional()
     @IsNumber()
     @Transform(obj => +obj.value)
-    ShippingTotalVat: number;
+    ShippingTotalVat?: number;
 
+    @IsOptional()
     @IsNumber()
     @Transform(obj => +obj.value)
-    DiscountTotalExVat: number;
+    DiscountTotalExVat?: number;
 
+    @IsOptional()
     @IsNumber()
     @Transform(obj => +obj.value)
-    DiscountTotalVat: number;
+    DiscountTotalVat?: number;
 
+    @IsOptional()
     @IsNumber()
     @Transform(obj => +obj.value)
-    TotalVat: number;
+    TotalVat?: number;
 
+    @IsOptional()
     @IsInt()
     @Transform(obj => +obj.value)
-    ClientId: number;
+    ClientId?: number;
 
+    @IsOptional()
     @IsInt()
     @Transform(obj => +obj.value)
-    NumberOfParcels: number;
+    NumberOfParcels?: number;
 
     @ValidateNested()
     @Type(() => CashOnDeliveryDto)
@@ -538,7 +400,7 @@ export class OrderCreationDto {
 
     @IsString()
     @Transform(({ value }) => value?.trim())
-    RecipientType: string;
+    RecipientType?: string;
 }
 
 export class FetchOrderDto {
