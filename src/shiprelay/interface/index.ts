@@ -100,3 +100,24 @@ export interface IShipmentModel extends ObjectionModel {
     created_at?: Date;
     updated_at?: Date;
 }
+
+interface IShipmentRateData {
+    service_name?: string;
+    service_code?: string;
+    total_price?: number;
+    description?: string;
+    currency?: string;
+    min_delivery_date?: string;
+    max_delivery_date?: string;
+    phone_required?: boolean;
+}
+
+interface IShipmentRateMeta {
+    session?: string;
+    expired_at?: Date;
+}
+
+export interface IShipmentRateModel extends ObjectionModel {
+    data: IShipmentRateData[],
+    meta: IShipmentRateMeta
+}

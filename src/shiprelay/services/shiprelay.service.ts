@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto, ShipmentShippedDto } from "../dto";
+import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto, ShipmentRateDto, ShipmentShippedDto } from "../dto";
 import { ShipRelayLibService } from "./shiprelayLibs.service";
-import { IProductModel, IShipmentModel } from "../interface";
+import { IProductModel, IShipmentModel, IShipmentRateModel } from "../interface";
 
 @Injectable()
 export class ShipRelayService {
@@ -57,5 +57,9 @@ export class ShipRelayService {
 
     async shipmentShippedService(reqBody: ShipmentShippedDto): Promise<any> {
         return await this.shipLibService.shipmentShippedLibService(reqBody);
+    }
+
+    async shipmentRateCalculationService(reqBody: ShipmentRateDto): Promise<IShipmentRateModel> {
+        return await this.shipLibService.shipmentRateLibService(reqBody);
     }
 }

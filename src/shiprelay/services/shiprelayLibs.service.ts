@@ -2,11 +2,11 @@ import { HttpService } from "@nestjs/axios";
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { catchError, lastValueFrom, map } from "rxjs";
-import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto, ShipmentShippedDto } from "../dto";
+import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto, ShipmentRateDto, ShipmentShippedDto } from "../dto";
 import { AxiosError } from "axios";
 import { __ } from "@squareboat/nestjs-localization";
 import { CacheStore } from '@squareboat/nest-cache';
-import { IProductModel, IShipmentModel } from "../interface";
+import { IProductModel, IShipmentModel, IShipmentRateModel } from "../interface";
 
 @Injectable()
 export class ShipRelayLibService {
@@ -378,5 +378,34 @@ export class ShipRelayLibService {
         const logger = new Logger();
         logger.log('Data recv from ShipRelay after successfull shipment -> ', reqBody)
         return true;
+    }
+
+    async shipmentRateLibService(reqBody: ShipmentRateDto): Promise<IShipmentRateModel> {
+        let updatedReqBody = {
+            ...reqBody,
+            reseller_id: this.config.get('services.shipRelay.shipRelayReSellerId')
+        }
+
+        return this.retryRequestWithNewToken(async () => {
+            const token = await this.getToken();
+            if (!token)
+                throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+
+            let shipRelayUrl = this.config.get('services.shipRelay.shipRelayApiUrl');
+
+            return await lastValueFrom(
+                this.httpService.post(`${shipRelayUrl}/rates/calculate`, updatedReqBody, {
+                    headers: { Authorization: `Bearer ${token}` }
+                }).pipe(
+                    map(response => response.data),
+                    catchError((error: AxiosError) => {
+                        if (error.response.status == 401)
+                            throw new UnauthorizedException(__('errorMessage.unAuthorizedError'));
+                        else
+                            throw new BadRequestException(error.response.data);
+                    })
+                )
+            )
+        })
     }
 }

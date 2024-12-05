@@ -2,7 +2,7 @@ import { Request, Response, RestController } from "@libs/boat";
 import { Body, Controller, Get, Param, Patch, Post, Put, Req, Res } from "@nestjs/common";
 import { ShipRelayService } from "../services";
 import { BaseValidator } from "@libs/boat/validator";
-import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto, ShipmentShippedDto } from "../dto";
+import { FetchProductDto, ProductCreationDto, ShipmentCreationDto, ShipmentFetchDto, ShipmentRateDto, ShipmentShippedDto } from "../dto";
 import { __ } from "@squareboat/nestjs-localization";
 import { ConfigService } from "@nestjs/config";
 
@@ -113,5 +113,12 @@ export class ShipRelayController extends RestController {
     async shipmentShippedController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ShipmentShippedDto): Promise<Response> {
         await this.service.shipmentShippedService(reqBody);
         return res.success(__('shipRelay.shippedWebHook'));
+    }
+
+    @Post('/shipments/calculate-rate')
+    async shipmentRateCalculationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ShipmentRateDto): Promise<Response> {
+        await this.validator.fire(reqBody, ShipmentRateDto);
+        const response = await this.service.shipmentRateCalculationService(reqBody);
+        return res.success(response)
     }
 }

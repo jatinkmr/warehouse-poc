@@ -331,3 +331,85 @@ export class ShipmentShippedDto {
     @Transform(({ value }) => value?.trim())
     service: string;
 }
+
+class ShipmentDestinationDto {
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    name: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    company: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    address1: string;
+
+    @IsString()
+    @Transform(({ value }) => value?.trim())
+    address2?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    city: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    region: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    country: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    zip: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    phone: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Transform(({ value }) => value?.trim())
+    email: string;
+}
+
+class ShipmentItemDto {
+    @IsNumber()
+    @IsNotEmpty()
+    @Transform(obj => +obj.value)
+    quantity: number;
+
+    @IsNumber()
+    @IsNotEmpty()
+    @Transform(obj => +obj.value)
+    price: number;
+
+    @IsString()
+    @IsNotEmpty()
+    currency: string;
+
+    @IsInt()
+    @IsNotEmpty()
+    product_id: number;
+}
+
+export class ShipmentRateDto {
+    @ValidateNested()
+    @Type(() => ShipmentDestinationDto)
+    destination: ShipmentDestinationDto;
+
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => ShipmentItemDto)
+    items: ShipmentItemDto[];
+}
