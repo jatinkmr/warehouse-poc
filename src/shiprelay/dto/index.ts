@@ -339,7 +339,7 @@ class ShipmentDestinationDto {
     name: string;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @Transform(({ value }) => value?.trim())
     company: string;
 
@@ -349,6 +349,7 @@ class ShipmentDestinationDto {
     address1: string;
 
     @IsString()
+    @IsOptional()
     @Transform(({ value }) => value?.trim())
     address2?: string;
 
@@ -373,12 +374,12 @@ class ShipmentDestinationDto {
     zip: string;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @Transform(({ value }) => value?.trim())
     phone: string;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @Transform(({ value }) => value?.trim())
     email: string;
 }
