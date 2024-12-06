@@ -64,7 +64,7 @@ interface ICarrierOptions {
     delivery_confirmation: boolean;
 }
 
-interface Address {
+interface IAddress {
     name: string;
     company: string;
     address1: string;
@@ -95,7 +95,7 @@ export interface IShipmentModel extends ObjectionModel {
     parcel?: IParcel[];
     carrier?: ICarrier[];
     tracking?: string | null;
-    address?: Address;
+    address?: IAddress;
     warehouse?: string | null;
     created_at?: Date;
     updated_at?: Date;
