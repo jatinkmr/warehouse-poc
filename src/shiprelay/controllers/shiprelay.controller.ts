@@ -56,7 +56,7 @@ export class ShipRelayController extends RestController {
         return res.success(response);
     }
 
-    @Put('/product/:productId')
+    @Patch('/product/:productId')
     async productUpdationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: ProductCreationDto, @Param('productId') productId: string): Promise<Response> {
         await this.validator.fire(reqBody, ProductCreationDto);
         let response = await this.service.productUpdationService(productId, reqBody);

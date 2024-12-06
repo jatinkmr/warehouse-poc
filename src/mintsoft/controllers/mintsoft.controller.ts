@@ -1,6 +1,6 @@
 import { Request, Response, RestController } from "@libs/boat";
 import { BaseValidator } from "@libs/boat/validator";
-import { Body, Controller, Get, Param, Post, Put, Req, Res } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Put, Req, Res } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { MintSoftService } from "../services";
 import { __ } from "@squareboat/nestjs-localization";
@@ -56,7 +56,7 @@ export class MintSoftController extends RestController {
         return res.success(response);
     }
 
-    @Put('/product')
+    @Patch('/product')
     async updateProductController(@Req() req: Request, @Res() res: Response, @Body() reqBody: UpdateProductDto): Promise<Response> {
         const data = plainToInstance(UpdateProductDto, reqBody);
         await this.validator.fire(data, UpdateProductDto);
@@ -87,7 +87,7 @@ export class MintSoftController extends RestController {
         return res.success(response);
     }
 
-    @Put('/order')
+    @Post('/order')
     async orderCreationController(@Req() req: Request, @Res() res: Response, @Body() reqBody: OrderCreationDto): Promise<Response> {
         await this.validator.fire(reqBody, OrderCreationDto)
         const response = await this.service.orderCreationService(reqBody);
