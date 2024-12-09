@@ -70,14 +70,6 @@ class SettingsDto {
     @IsNumber()
     @Min(0)
     source_unit_cost: number;
-
-    @IsNumber()
-    @Min(0)
-    min_product_stock_threshold: number;
-
-    @IsNumber()
-    @Min(0)
-    default_retail_price_per_unit: number;
 }
 
 enum CategoryEnum {
@@ -93,7 +85,8 @@ enum CategoryEnum {
 
 export class ProductCreationDto {
     @IsString()
-    @Length(5, 20, { message: 'Source ID must be between 5 and 20 characters.' })
+    @IsOptional()
+    // @Length(5, 20, { message: 'Source ID must be between 5 and 20 characters.' })
     @Transform(({ value }) => value?.trim())
     source_id: string;
 
