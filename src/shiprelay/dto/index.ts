@@ -47,7 +47,7 @@ class SettingsDto {
     @IsString()
     @IsOptional()
     @Length(3, 10, { message: 'Tariff code should be between 3 and 10 characters.' })
-    tariff_code: string;
+    tariff_code?: string;
 
     @IsNumber()
     @Min(1)
@@ -55,23 +55,23 @@ class SettingsDto {
 
     @IsBoolean()
     @IsOptional()
-    is_requestable: boolean;
+    is_requestable?: boolean;
 
     @IsBoolean()
     @IsOptional()
-    is_foldable: boolean;
+    is_foldable?: boolean;
 
     @IsBoolean()
     @IsOptional()
-    is_alcoholic: boolean;
+    is_alcoholic?: boolean;
 
     @IsBoolean()
     @IsOptional()
-    is_hazmat: boolean;
+    is_hazmat?: boolean;
 
     @IsBoolean()
     @IsOptional()
-    needs_box: boolean;
+    needs_box?: boolean;
 
     @IsNumber()
     @Min(0)
@@ -94,7 +94,7 @@ export class ProductCreationDto {
     @IsOptional()
     // @Length(5, 20, { message: 'Source ID must be between 5 and 20 characters.' })
     @Transform(({ value }) => value?.trim())
-    source_id: string;
+    source_id?: string;
 
     @IsString()
     @Length(3, 20, { message: 'Category must be between 3 and 20 characters.' })
@@ -158,11 +158,11 @@ export class ShipmentFetchDto {
     })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    status: ShipmentStatus;
+    status?: ShipmentStatus;
 
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    order_ref: string;
+    order_ref?: string;
 }
 
 class AddressDto {
@@ -174,7 +174,7 @@ class AddressDto {
     @IsString()
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    company: string;
+    company?: string;
 
     @IsString()
     @IsNotEmpty()
@@ -184,7 +184,7 @@ class AddressDto {
     @IsString()
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    address2: string;
+    address2?: string;
 
     @IsString()
     @IsNotEmpty()
@@ -209,7 +209,7 @@ class AddressDto {
     @IsString()
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    phone: string;
+    phone?: string;
 
     @IsEmail()
     @IsNotEmpty()
@@ -268,7 +268,7 @@ export class ShipmentCreationDto {
     @IsString()
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    notes: string;
+    notes?: string;
 
     @IsDateString()
     @IsNotEmpty()
@@ -282,7 +282,7 @@ export class ShipmentCreationDto {
     @IsString()
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    shipping_selected_ref: string;
+    shipping_selected_ref?: string;
 
     @ValidateNested()
     @Type(() => AddressDto)
@@ -340,7 +340,7 @@ class ShipmentDestinationDto {
     @IsString()
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    company: string;
+    company?: string;
 
     @IsString()
     @IsNotEmpty()
@@ -375,12 +375,12 @@ class ShipmentDestinationDto {
     @IsString()
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    phone: string;
+    phone?: string;
 
     @IsString()
     @IsOptional()
     @Transform(({ value }) => value?.trim())
-    email: string;
+    email?: string;
 }
 
 class ShipmentItemDto {

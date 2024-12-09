@@ -44,7 +44,7 @@ export class ProductDto {
     ImageURL: string;
 
     @IsOptional()
-    LastUpdated: Date = new Date();
+    LastUpdated?: Date = new Date();
 
     @IsString()
     LastUpdatedByUser: string = "gray.porter";
@@ -54,7 +54,7 @@ export class UpdateProductDto {
     @IsInt()
     @IsOptional()
     @Transform(obj => +obj.value)
-    ID: number;
+    ID?: number;
 
     @IsOptional()
     @Transform(({ value }) => value?.trim())
@@ -140,17 +140,17 @@ class OrderItemDto {
     @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    RequestedSerialNo: string;
+    RequestedSerialNo?: string;
 
     @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    RequestedBatchNo: string;
+    RequestedBatchNo?: string;
 
     @IsOptional()
     @IsString()
     @Transform(({ value }) => value?.trim())
-    RequestedBBEDate: string;
+    RequestedBBEDate?: string;
 }
 
 class OrderNameValueDto {
