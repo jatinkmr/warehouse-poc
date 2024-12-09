@@ -45,6 +45,7 @@ class SettingsDto {
     ship_weight: number;
 
     @IsString()
+    @IsOptional()
     @Length(3, 10, { message: 'Tariff code should be between 3 and 10 characters.' })
     tariff_code: string;
 
