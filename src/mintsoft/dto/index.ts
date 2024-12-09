@@ -51,9 +51,9 @@ export class ProductDto {
 }
 
 export class UpdateProductDto {
-    @IsInt()
+    @IsInt({ message: 'ID must be a positive number!' })
     @IsOptional()
-    @Transform(obj => +obj.value)
+    @Transform(({ value }) => +value)
     ID?: number;
 
     @IsOptional()
@@ -88,41 +88,41 @@ export class UpdateProductDto {
 }
 
 class OrderItemNameValueDto {
-    @IsString()
+    @IsString({ message: 'Order Item Name must be a string!' })
     @Transform(({ value }) => value?.trim())
     Name: string;
 
-    @IsString()
+    @IsString({ message: 'Order Item Value must be a string!' })
     @Transform(({ value }) => value?.trim())
     Value: string;
 }
 
 class OrderItemDto {
-    @IsString()
+    @IsString({ message: 'SKU must be a string!' })
     @Transform(({ value }) => value?.trim())
     SKU: string;
 
-    @IsInt()
+    @IsInt({ message: 'ProductId must be a number!' })
     @Transform(obj => +obj.value)
     ProductId: number;
 
-    @IsInt()
+    @IsInt({ message: 'Quantity must be a number!' })
     @Transform(obj => +obj.value)
     Quantity: number;
 
-    @IsString()
+    @IsString({ message: 'Details must be a string!' })
     @Transform(({ value }) => value?.trim())
     Details: string;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'Unit Price must be a number' })
     @Transform(obj => +obj.value)
     UnitPrice: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'UnitPriceVat must be a number!' })
     @Transform(obj => +obj.value)
     UnitPriceVat: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'Discount must be a number!' })
     @Transform(obj => +obj.value)
     Discount: number;
 
@@ -133,42 +133,42 @@ class OrderItemDto {
     OrderItemNameValues?: OrderItemNameValueDto[];
 
     @IsOptional()
-    @IsInt()
+    @IsInt({ message: 'WarehouseId must be a number!' })
     @Transform(obj => +obj.value)
     WarehouseId?: number;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'RequestedSerialNo must be a string!' })
     @Transform(({ value }) => value?.trim())
     RequestedSerialNo?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'RequestedBatchNo must be a string!' })
     @Transform(({ value }) => value?.trim())
     RequestedBatchNo?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'RequestedBBEDate must be a string!' })
     @Transform(({ value }) => value?.trim())
     RequestedBBEDate?: string;
 }
 
 class OrderNameValueDto {
-    @IsString()
+    @IsString({ message: 'Name must be a string!' })
     @Transform(({ value }) => value?.trim())
     Name: string;
 
-    @IsString()
+    @IsString({ message: 'Value must be a string!' })
     @Transform(({ value }) => value?.trim())
     Value: string;
 }
 
 class CashOnDeliveryDto {
-    @IsNumber()
+    @IsNumber({}, { message: 'Amount must be a number!' })
     @Transform(obj => +obj.value)
     Amount: number;
 
-    @IsString()
+    @IsString({ message: 'CurrenctyCode must be a string!' })
     @Transform(({ value }) => value?.trim())
     CurrencyCode: string;
 }
@@ -185,7 +185,7 @@ export class OrderCreationDto {
     @IsArray()
     OrderNameValues?: OrderNameValueDto[];
 
-    @IsString()
+    @IsString({ message: 'OrderNumber must be a string!' })
     @Matches(/^ORD-\d{4}-\d{4}-\d{4}$/, {
         message: 'OrderNumber must match the format ORD-YYYY-MMDD-XXXX',
     })
@@ -193,204 +193,205 @@ export class OrderCreationDto {
     OrderNumber: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'ExternalOrderReference must be a string!' })
     @Transform(({ value }) => value?.trim())
     ExternalOrderReference?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'Title must be a string!' })
     @Transform(({ value }) => value?.trim())
     Title?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'CompanyName must be a string!' })
     @Transform(({ value }) => value?.trim())
     CompanyName?: string;
 
-    @IsString()
+    @IsString({ message: 'FirstName must be a string!' })
     @Transform(({ value }) => value?.trim())
     FirstName: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'LastName must be a string!' })
     @Transform(({ value }) => value?.trim())
     LastName?: string;
 
-    @IsString()
+    @IsString({ message: 'Address1 must be a string!' })
     @Transform(({ value }) => value?.trim())
     Address1: string;
 
-    @IsString()
+    @IsString({ message: 'Address2 must be a string!' })
     @Transform(({ value }) => value?.trim())
     Address2: string;
 
+    @IsString({ message: 'Address3 must be a string!' })
     @IsOptional()
-    @IsString()
     @Transform(({ value }) => value?.trim())
     Address3?: string;
 
-    @IsString()
+    @IsString({ message: 'Town must be a string!' })
     @Transform(({ value }) => value?.trim())
     Town: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'County must be a string!' })
     @Transform(({ value }) => value?.trim())
     County?: string;
 
-    @IsString()
+    @IsString({ message: 'PostCode must be a string!' })
     @Transform(({ value }) => value?.trim())
     PostCode: string;
 
-    @IsString()
+    @IsString({ message: 'Country must be a string!' })
     @Transform(({ value }) => value?.trim())
     Country: string;
 
     @IsOptional()
-    @IsInt()
+    @IsInt({ message: 'CountryId must be an integer value!' })
     @Transform(obj => +obj.value)
     CountryId?: number;
 
-    @IsString()
+    @IsString({ message: 'Email must be a string!' })
     @Transform(({ value }) => value?.trim())
     Email: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'Phone must be a string!' })
     @Transform(({ value }) => value?.trim())
     Phone?: string;
 
-    @IsString()
+    @IsString({ message: 'Mobile must be a string!' })
     @Transform(({ value }) => value?.trim())
     Mobile: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'CourierService must be a string!' })
     @Transform(({ value }) => value?.trim())
     CourierService?: string;
 
     @IsOptional()
-    @IsInt()
+    @IsInt({ message: 'CourierSerivceId must be an integer value!' })
     @Transform(obj => +obj.value)
     CourierServiceId?: number;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'Channel must be a string!' })
     @Transform(({ value }) => value?.trim())
     Channel?: string;
 
     @IsOptional()
-    @IsInt()
+    @IsInt({})
     @Transform(obj => +obj.value)
     ChannelId?: number;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'Warehouse must be a string!' })
     @Transform(({ value }) => value?.trim())
     Warehouse?: string;
 
-    @IsInt()
+    @IsInt({ message: 'WarehouseId must be a number!' })
     @Transform(obj => +obj.value)
     WarehouseId: number;
 
-    @IsString()
+    @IsString({ message: 'Currency must be a string!' })
     @Transform(({ value }) => value?.trim())
     Currency: string;
 
     @IsOptional()
-    @IsInt()
+    @IsInt({ message: 'CurrencyId must be an integer value!' })
     @Transform(obj => +obj.value)
     CurrencyId?: number;
 
     @IsOptional()
-    @IsDateString()
+    @IsDateString({}, { message: 'DeliveryDate must be a valid ISO 8601 date string!' })
+    // @IsDateString({ message: 'DeliveryDate must be ' })
     @Transform(({ value }) => value?.trim())
     DeliveryDate?: string;
 
     @IsOptional()
-    @IsDateString()
+    @IsDateString({}, { message: 'DespatchDate must be a valid ISO 8601 date string!' })
     @Transform(({ value }) => value?.trim())
     DespatchDate?: string;
 
     @IsOptional()
-    @IsDateString()
+    @IsDateString({}, { message: 'RequiredDeliveryDate must be a valid ISO 8601 date string!' })
     @Transform(({ value }) => value?.trim())
     RequiredDeliveryDate?: string;
 
     @IsOptional()
-    @IsDateString()
+    @IsDateString({}, { message: 'RequiredDespatchDate must be a valid ISO 8601 date string!' })
     @Transform(({ value }) => value?.trim())
     RequiredDespatchDate?: string;
 
-    @IsString()
+    @IsString({ message: 'Comments must be a string!' })
     @Transform(({ value }) => value?.trim())
     Comments: string;
 
-    @IsString()
+    @IsString({ message: 'DeliveryNotes must be a string!' })
     @Transform(({ value }) => value?.trim())
     DeliveryNotes: string;
 
-    @IsString()
+    @IsString({ message: 'GiftMessages must be a string!' })
     @Transform(({ value }) => value?.trim())
     GiftMessages: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'VATNumber must be a string!' })
     @Transform(({ value }) => value?.trim())
     VATNumber?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'EORINumber must be a string!' })
     @Transform(({ value }) => value?.trim())
     EORINumber?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'PIDNumber must be a string!' })
     @Transform(({ value }) => value?.trim())
     PIDNumber?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'IOSSNumber must be a string!' })
     @Transform(({ value }) => value?.trim())
     IOSSNumber?: string;
 
     @IsOptional()
-    @IsNumber()
+    @IsNumber({}, { message: 'OrderValue must be a valid number!' })
     @Transform(obj => +obj.value)
     OrderValue?: number;
 
     @IsOptional()
-    @IsNumber()
+    @IsNumber({}, { message: 'ShippingTotalExVat must be a valid number!' })
     @Transform(obj => +obj.value)
     ShippingTotalExVat?: number;
 
     @IsOptional()
-    @IsNumber()
+    @IsNumber({}, { message: 'ShippingTotalVat must be a Valid number!' })
     @Transform(obj => +obj.value)
     ShippingTotalVat?: number;
 
     @IsOptional()
-    @IsNumber()
+    @IsNumber({}, { message: 'DiscountTotalExVat must be a valid number!' })
     @Transform(obj => +obj.value)
     DiscountTotalExVat?: number;
 
     @IsOptional()
-    @IsNumber()
+    @IsNumber({}, { message: 'DiscountTotalVat must be a valid number!' })
     @Transform(obj => +obj.value)
     DiscountTotalVat?: number;
 
     @IsOptional()
-    @IsNumber()
+    @IsNumber({}, { message: 'TotalVat must be a valid number!' })
     @Transform(obj => +obj.value)
     TotalVat?: number;
 
     @IsOptional()
-    @IsInt()
+    @IsInt({ message: 'ClientId must be a valid number!' })
     @Transform(obj => +obj.value)
     ClientId?: number;
 
     @IsOptional()
-    @IsInt()
+    @IsInt({ message: 'NumberOfParcels must be a valid number!' })
     @Transform(obj => +obj.value)
     NumberOfParcels?: number;
 
@@ -398,7 +399,7 @@ export class OrderCreationDto {
     @Type(() => CashOnDeliveryDto)
     CashOnDelivery: CashOnDeliveryDto;
 
-    @IsString()
+    @IsString({ message: 'RecipientType must be a string!' })
     @Transform(({ value }) => value?.trim())
     RecipientType?: string;
 }

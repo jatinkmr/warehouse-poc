@@ -17,63 +17,67 @@ export class FetchProductDto {
     page: number;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'Name must be a string!' })
     @Transform(({ value }) => value?.trim())
     name?: string;
 
     @IsOptional()
-    @IsString()
+    @IsString({ message: 'SKU must be a string!' })
     @Transform(({ value }) => value?.trim())
     sku?: string;
 }
 
 class SettingsDto {
-    @IsNumber()
+    @IsNumber({}, { message: 'ship_width must be a number!' })
     @Min(0)
+    @Transform(obj => +obj.value)
     ship_width: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'ship_length must be a number!' })
     @Min(0)
+    @Transform(obj => +obj.value)
     ship_length: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'ship_height must be a number!' })
     @Min(0)
+    @Transform(obj => +obj.value)
     ship_height: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'ship_weight must be a number!' })
     @Min(0)
+    @Transform(obj => +obj.value)
     ship_weight: number;
 
-    @IsString()
+    @IsString({ message: 'tariff_code must be a string!' })
     @IsOptional()
     @Length(3, 10, { message: 'Tariff code should be between 3 and 10 characters.' })
     tariff_code?: string;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'Parent Qty must be a number!' })
     @Min(1)
     parent_qty: number;
 
-    @IsBoolean()
+    @IsBoolean({ message: 'is_requestable value must be a boolean value!' })
     @IsOptional()
     is_requestable?: boolean;
 
-    @IsBoolean()
+    @IsBoolean({ message: 'is_foldable value must be a boolean value!' })
     @IsOptional()
     is_foldable?: boolean;
 
-    @IsBoolean()
+    @IsBoolean({ message: 'is_alcoholic value must be a boolean value!' })
     @IsOptional()
     is_alcoholic?: boolean;
 
-    @IsBoolean()
+    @IsBoolean({ message: 'is_hazmat value must be a boolean value!' })
     @IsOptional()
     is_hazmat?: boolean;
 
-    @IsBoolean()
+    @IsBoolean({ message: 'needs_box value must be a boolean value!' })
     @IsOptional()
     needs_box?: boolean;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'source_unit_cost must be a number!' })
     @Min(0)
     source_unit_cost: number;
 }
@@ -90,13 +94,12 @@ enum CategoryEnum {
 }
 
 export class ProductCreationDto {
-    @IsString()
+    @IsString({ message: 'source_id must be a string!' })
     @IsOptional()
-    // @Length(5, 20, { message: 'Source ID must be between 5 and 20 characters.' })
     @Transform(({ value }) => value?.trim())
     source_id?: string;
 
-    @IsString()
+    @IsString({ message: 'Category must be a string!' })
     @Length(3, 20, { message: 'Category must be between 3 and 20 characters.' })
     @IsEnum(CategoryEnum, {
         message: `Invalid category. Must be one of the following: ${Object.values(CategoryEnum).join(', ')}`,
@@ -104,22 +107,22 @@ export class ProductCreationDto {
     @Transform(({ value }) => value?.trim())
     category: CategoryEnum;
 
-    @IsString()
+    @IsString({ message: 'Barcode must be a string!' })
     @Length(5, 15, { message: 'Barcode must be between 5 and 15 characters.' })
     @Transform(({ value }) => value?.trim())
     barcode: string;
 
-    @IsString()
+    @IsString({ message: 'SKU must be a string!' })
     @Length(5, 15, { message: 'SKU must be between 5 and 15 characters.' })
     @Transform(({ value }) => value?.trim())
     sku: string;
 
-    @IsString()
+    @IsString({ message: 'Name must be a string!' })
     @Length(3, 50, { message: 'Product name must be between 3 and 50 characters.' })
     @Transform(({ value }) => value?.trim())
     name: string;
 
-    @IsString()
+    @IsString({ message: 'Thumb must be a string!' })
     @Transform(({ value }) => value?.trim())
     thumb: string;
 
@@ -166,111 +169,111 @@ export class ShipmentFetchDto {
 }
 
 class AddressDto {
-    @IsString()
+    @IsString({ message: 'Name must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     name: string;
 
-    @IsString()
+    @IsString({ message: 'Company must be a string!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     company?: string;
 
-    @IsString()
+    @IsString({ message: 'Address1 must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     address1: string;
 
-    @IsString()
+    @IsString({ message: 'Address2 must be a string!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     address2?: string;
 
-    @IsString()
+    @IsString({ message: 'City must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     city: string;
 
-    @IsString()
+    @IsString({ message: 'Region must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     region: string;
 
-    @IsString()
+    @IsString({ message: 'Zip must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     zip: string;
 
-    @IsString()
+    @IsString({ message: 'Country must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     country: string;
 
-    @IsString()
+    @IsString({ message: 'Phone must be a string!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     phone?: string;
 
-    @IsEmail()
+    @IsEmail({}, { message: 'Email must be valid email address!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     email: string;
 }
 
 class ItemDto {
-    @IsNumber()
+    @IsNumber({}, { message: 'ProductId must be a number!' })
     @IsNotEmpty()
     @Transform(obj => +obj.value)
     product_id: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'Quantity must be a number!' })
     @IsNotEmpty()
     @Transform(obj => +obj.value)
     quantity: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'Price must be a number!' })
     @IsNotEmpty()
     @Transform(obj => +obj.value)
     price: number;
 }
 
 export class ShipmentCreationDto {
-    @IsString()
+    @IsString({ message: 'ID must be a string' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     id?: string;
 
-    @IsString()
+    @IsString({ message: 'Source_Order_Id must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     source_order_id: string;
 
-    @IsString()
+    @IsString({ message: 'source_shipment_id must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     source_shipment_id: string;
 
-    @IsString()
+    @IsString({ message: 'Order_Ref must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     order_ref: string;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'Shipment_total_cost must be number!' })
     @IsNotEmpty()
     @Transform(obj => +obj.value)
     shipment_total_cost: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'Package_Ref must be a number!' })
     @IsNotEmpty()
     @Transform(obj => +obj.value)
     package_ref: number;
 
-    @IsString()
+    @IsString({ message: 'Notes must be a string!!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     notes?: string;
 
-    @IsDateString()
+    @IsDateString({}, { message: 'shipment_create_at must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     shipment_created_at: string;
@@ -279,7 +282,7 @@ export class ShipmentCreationDto {
     @IsString({ each: true })
     tags: string[];
 
-    @IsString()
+    @IsString({ message: 'shipping_selected_ref must be a string!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     shipping_selected_ref?: string;
@@ -295,110 +298,110 @@ export class ShipmentCreationDto {
 }
 
 export class ShipmentShippedDto {
-    @IsString()
+    @IsString({ message: 'source_order_id must be a string!!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     source_order_id: string;
 
-    @IsString()
+    @IsString({ message: 'source_shipment_id must be string' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     source_shipment_id: string;
 
-    @IsString()
+    @IsString({ message: 'Order_ref must be astring!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     order_ref: string;
 
-    @IsString()
+    @IsString({ message: 'tracking_number must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     tracking_number: string;
 
-    @IsString()
+    @IsString({ message: 'tracking_url must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     tracking_url: string;
 
-    @IsString()
+    @IsString({ message: 'Carrier must be a string!!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     carrier: string;
 
-    @IsString()
+    @IsString({ message: 'Service must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     service: string;
 }
 
 class ShipmentDestinationDto {
-    @IsString()
+    @IsString({ message: 'Name must be astring!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     name: string;
 
-    @IsString()
+    @IsString({ message: 'Company must be a string!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     company?: string;
 
-    @IsString()
+    @IsString({ message: 'Address1 must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     address1: string;
 
-    @IsString()
+    @IsString({ message: 'Address2 must be a string!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     address2?: string;
 
-    @IsString()
+    @IsString({ message: 'City must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     city: string;
 
-    @IsString()
+    @IsString({ message: 'Region must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     region: string;
 
-    @IsString()
+    @IsString({ message: 'Country must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     country: string;
 
-    @IsString()
+    @IsString({ message: 'Zip must be a string!' })
     @IsNotEmpty()
     @Transform(({ value }) => value?.trim())
     zip: string;
 
-    @IsString()
+    @IsString({ message: 'Phone must be a string!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     phone?: string;
 
-    @IsString()
+    @IsString({ message: 'Email must be a string!' })
     @IsOptional()
     @Transform(({ value }) => value?.trim())
     email?: string;
 }
 
 class ShipmentItemDto {
-    @IsNumber()
+    @IsNumber({}, { message: 'Quantity must be a number!' })
     @IsNotEmpty()
     @Transform(obj => +obj.value)
     quantity: number;
 
-    @IsNumber()
+    @IsNumber({}, { message: 'Price must be a number!' })
     @IsNotEmpty()
     @Transform(obj => +obj.value)
     price: number;
 
-    @IsString()
+    @IsString({ message: 'Currencty must be a strng!' })
     @IsNotEmpty()
     currency: string;
 
-    @IsInt()
+    @IsInt({ message: 'Product Id must be a number!' })
     @IsNotEmpty()
     product_id: number;
 }
