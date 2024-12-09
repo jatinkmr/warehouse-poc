@@ -280,7 +280,7 @@ export class OrderCreationDto {
     Channel?: string;
 
     @IsOptional()
-    @IsInt({})
+    @IsInt({ message: 'ChannelId must be a number!' })
     @Transform(obj => +obj.value)
     ChannelId?: number;
 
@@ -304,7 +304,6 @@ export class OrderCreationDto {
 
     @IsOptional()
     @IsDateString({}, { message: 'DeliveryDate must be a valid ISO 8601 date string!' })
-    // @IsDateString({ message: 'DeliveryDate must be ' })
     @Transform(({ value }) => value?.trim())
     DeliveryDate?: string;
 

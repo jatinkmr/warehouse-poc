@@ -54,7 +54,8 @@ class SettingsDto {
     tariff_code?: string;
 
     @IsNumber({}, { message: 'Parent Qty must be a number!' })
-    @Min(1)
+    @IsOptional()
+    @Transform(obj => +obj.value)
     parent_qty: number;
 
     @IsBoolean({ message: 'is_requestable value must be a boolean value!' })
