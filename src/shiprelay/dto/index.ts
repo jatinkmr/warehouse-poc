@@ -54,18 +54,23 @@ class SettingsDto {
     parent_qty: number;
 
     @IsBoolean()
+    @IsOptional()
     is_requestable: boolean;
 
     @IsBoolean()
+    @IsOptional()
     is_foldable: boolean;
 
     @IsBoolean()
+    @IsOptional()
     is_alcoholic: boolean;
 
     @IsBoolean()
+    @IsOptional()
     is_hazmat: boolean;
 
     @IsBoolean()
+    @IsOptional()
     needs_box: boolean;
 
     @IsNumber()
