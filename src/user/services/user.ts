@@ -16,7 +16,7 @@ export class UserService {
 
   @ListensTo('USER_SIGNED_UP')
   userSignedUp(event: UserSignedUp): void {
-    console.log('EVENT RECEIVED ===>', event);
+    console.log('EVENT RECEIVED ==>', event);
     // add your logic here
     return;
   }
